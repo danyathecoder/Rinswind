@@ -16,7 +16,7 @@ bool Anim::load(std::string animFile, int count) {
 
 
 sf::Texture &Anim::nextFrame(float elapsedTime) {
-    currentFrame += (elapsedTime * (float)speed / (float)size);
+    currentFrame += (elapsedTime * (float)speed);
     if (currentFrame > (float)size) currentFrame -= (float)size;
     return frames[(int)currentFrame % size];
 }

@@ -15,7 +15,7 @@ public:
     void reset();
     sf::Texture &nextFrame(float elapsedTime);
 private:
-    int speed = 1000;
+    int speed = 10;
     float currentFrame = 0;
     int size = 0;
     sf::Texture *frames;
