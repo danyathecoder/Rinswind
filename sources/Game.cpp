@@ -31,10 +31,10 @@ void Game::render() {
     window->draw(currentLevel.levelMap);
 
     //printf("%d %d\n", player.currentSprite.getTexture()->getSize().x, player.currentSprite.getTexture()->getSize().y);
-    this->window->draw(player.currentSprite);
+    //this->window->draw(player.currentSprite);
 
     for (const auto & character : characters)
-        this->window->draw(character.currentSprite);
+        this->window->draw(character->currentSprite);
 
     //render items
 
@@ -52,9 +52,8 @@ void Game::run() {
 
 void Game::update() {
     this->updateSFMLEvents();
-    player.updateSprite(0.01f);
     for (auto & character : characters)
-        character.updateSprite(0.01f);
+        character->updateSprite(0.01f);
 }
 
 void Game::updateSFMLEvents() {
@@ -67,29 +66,27 @@ void Game::updateSFMLEvents() {
 void Game::updateDt() {
     //time, which took to render and update one frame
     this->dt = this->dtClock.restart().asSeconds();
-    //std::system("clear");//"cls" for windows
-    //std::cout << this->dt << std::endl;
 }
 
 void Game::input() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         player.moveCharacter(-1, 0);
-        player.setCurrentState(Character::States::WALK);
+        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         player.moveCharacter(1, 0);
-        player.setCurrentState(Character::States::WALK);
+        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         player.moveCharacter(0, -1);
-        player.setCurrentState(Character::States::WALK);
+        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         player.moveCharacter(0, 1);
-        player.setCurrentState(Character::States::WALK);
+        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
     }
     else {
-        player.setCurrentState(Character::States::IDLE);
+        if (player.getCurrentState() != Character::States::IDLE) player.setCurrentState(Character::States::IDLE);
     }
 }
 
@@ -106,6 +103,6 @@ void Game::initPlayer() {
 
     player.camera.setSize(400, 300);
     player.setCurrentState(Character::States::IDLE);
-    //characters.push_back(player);
+    characters.push_back(&player);
     window->setView(player.camera);
 }
