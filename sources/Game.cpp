@@ -31,10 +31,10 @@ void Game::render() {
     window->draw(currentLevel.levelMap);
 
     //printf("%d %d\n", player.currentSprite.getTexture()->getSize().x, player.currentSprite.getTexture()->getSize().y);
-    this->window->draw(player.currentSprite);
+    //this->window->draw(player.currentSprite);
 
     for (const auto & character : characters)
-        this->window->draw(character.currentSprite);
+        this->window->draw(character->currentSprite);
 
     //render items
 
@@ -52,9 +52,9 @@ void Game::run() {
 
 void Game::update() {
     this->updateSFMLEvents();
-    player.updateSprite(0.01f);
+    //player.updateSprite(0.01f);
     for (auto & character : characters)
-        character.updateSprite(0.01f);
+        character->updateSprite(0.01f);
 }
 
 void Game::updateSFMLEvents() {
@@ -106,6 +106,6 @@ void Game::initPlayer() {
 
     player.camera.setSize(400, 300);
     player.setCurrentState(Character::States::IDLE);
-    //characters.push_back(player);
+    characters.push_back(&player);
     window->setView(player.camera);
 }

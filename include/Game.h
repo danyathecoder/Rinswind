@@ -28,7 +28,7 @@ private:
     sf:: Event event;
     float dt;
     sf::Clock dtClock;
-    std::vector<Character> characters;
+    std::vector<Character*> characters;
     Player player;
     Level currentLevel;
     std::vector<Level> levelList;
