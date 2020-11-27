@@ -9,7 +9,7 @@
 #include "Anim.h"
 #include <map>
 
-class Character/*: public sf::Drawable, public sf::Transformable*/{
+class Character{
 public:
     enum class States{IDLE, WALK, ATTACK, HIT};
     States getCurrentState() const;
