@@ -25,8 +25,8 @@ void Character::moveCharacter(float x, float y) {
 }
 
 void Character::setCurrentState(Character::States newState) {
+    if (newState != currentState) animations[newState].reset();
     currentState = newState;
-    animations[currentState].reset();
 }
 
 

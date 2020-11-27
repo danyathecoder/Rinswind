@@ -43,17 +43,17 @@ void Game::render() {
 
 void Game::run() {
     while (this->window->isOpen()) {
-        this->input();
-        this->updateDt();
         this->update();
         this->render();
     }
 }
 
 void Game::update() {
+    float dt = dtClock.restart().asSeconds();
+    this->input(dt);
     this->updateSFMLEvents();
     for (auto & character : characters)
-        character->updateSprite(0.01f);
+        character->updateSprite(dt);
 }
 
 void Game::updateSFMLEvents() {
@@ -63,30 +63,25 @@ void Game::updateSFMLEvents() {
     }
 }
 
-void Game::updateDt() {
-    //time, which took to render and update one frame
-    this->dt = this->dtClock.restart().asSeconds();
-}
-
-void Game::input() {
+void Game::input(float dt) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        player.moveCharacter(-1, 0);
-        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
+        player.moveCharacter(-1 * dt, 0);
+        player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        player.moveCharacter(1, 0);
-        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
+        player.moveCharacter(1 * dt, 0);
+        player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        player.moveCharacter(0, -1);
-        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
+        player.moveCharacter(0, -1 * dt);
+        player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        player.moveCharacter(0, 1);
-        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
+        player.moveCharacter(0, 1 * dt);
+        player.setCurrentState(Character::States::WALK);
     }
     else {
-        if (player.getCurrentState() != Character::States::IDLE) player.setCurrentState(Character::States::IDLE);
+        player.setCurrentState(Character::States::IDLE);
     }
 }
 

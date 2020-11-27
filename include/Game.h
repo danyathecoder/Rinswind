@@ -26,7 +26,6 @@ private:
     //variables
     sf:: RenderWindow *window;
     sf:: Event event;
-    float dt;
     sf::Clock dtClock;
     std::vector<Character*> characters;
     Player player;
@@ -47,7 +46,7 @@ public:
     void render();
     void run();
     void updateDt();
-    void input();
+    void input(float dt);
 };
 
 
