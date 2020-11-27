@@ -71,22 +71,22 @@ void Game::updateDt() {
 void Game::input() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         player.moveCharacter(-1, 0);
-        player.setCurrentState(Character::States::WALK);
+        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         player.moveCharacter(1, 0);
-        player.setCurrentState(Character::States::WALK);
+        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         player.moveCharacter(0, -1);
-        player.setCurrentState(Character::States::WALK);
+        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         player.moveCharacter(0, 1);
-        player.setCurrentState(Character::States::WALK);
+        if (player.getCurrentState() != Character::States::WALK) player.setCurrentState(Character::States::WALK);
     }
     else {
-        player.setCurrentState(Character::States::IDLE);
+        if (player.getCurrentState() != Character::States::IDLE) player.setCurrentState(Character::States::IDLE);
     }
 }
 
