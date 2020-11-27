@@ -8,12 +8,18 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <vector>
+
+#include "Character.h"
+#include "Player.h"
+#include "Level.h"
 
 #include "SFML/System.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
-#include "SFML/Network.hpp"
+
+
 
 class Game {
 private:
@@ -22,20 +28,26 @@ private:
     sf:: Event event;
     float dt;
     sf::Clock dtClock;
-
+    std::vector<Character> characters;
+    Player player;
+    Level currentLevel;
+    std::vector<Level> levelList;
     //init functions
     void initWindow();
+    void initPlayer();
+
 public:
     Game();
     virtual ~Game();
 
     //functions
+    void loadLevel(int number);
     void updateSFMLEvents();
     void update();
     void render();
     void run();
     void updateDt();
-
+    void input();
 };
 
 
