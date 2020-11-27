@@ -52,7 +52,6 @@ void Game::run() {
 
 void Game::update() {
     this->updateSFMLEvents();
-    //player.updateSprite(0.01f);
     for (auto & character : characters)
         character->updateSprite(0.01f);
 }
@@ -67,8 +66,6 @@ void Game::updateSFMLEvents() {
 void Game::updateDt() {
     //time, which took to render and update one frame
     this->dt = this->dtClock.restart().asSeconds();
-    //std::system("clear");//"cls" for windows
-    //std::cout << this->dt << std::endl;
 }
 
 void Game::input() {
