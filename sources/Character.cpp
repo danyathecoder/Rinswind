@@ -39,7 +39,6 @@ bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f next
     sf::Vector2i nextMapPos((int)floor(nextPosition.x / 16), (int)floor(nextPosition.y / 16));
     int xDirection = (nextPosition.x >= previousPosition.x) ? 1 : -1;
     int yDirection = (nextPosition.y >= previousPosition.y) ? 1 : -1;
-    printf("Directions: %d %d\n", xDirection, yDirection);
     for (int i = mapPos.x; i * xDirection <= nextMapPos.x * xDirection; i += xDirection)
         for (int j = mapPos.y; j * yDirection <= nextMapPos.y * yDirection; j += yDirection) {
             if (isSolid(levelMap[j + ((yDirection > 0)?2:1)][i + ((xDirection > 0)?1:0)], level->levelMap.getSolidTiles())) return true;
