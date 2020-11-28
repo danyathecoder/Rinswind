@@ -8,6 +8,8 @@
 #include <SFML/Graphics.hpp>
 #include "Anim.h"
 #include <map>
+#include "Level.h"
+#include <vector>
 
 class Character{
 public:
@@ -19,8 +21,13 @@ public:
     sf::Sprite currentSprite;
     int health;
     float speed;
+    Level *level;
     std::map<States, Anim> animations;
 protected:
+    static bool isSolid(int tile, const std::vector<int> &solidTiles);
+    bool checkCollisions(sf::Vector2f previousPosition, sf::Vector2f nextPosition);
+    void getCollision(Character& collisionObject);
+    std::vector<Character*> *characters;
     States currentState;
 };
 

@@ -64,23 +64,28 @@ void Game::updateSFMLEvents() {
 }
 
 void Game::input(float dt) {
+    bool isInMove = false;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         player.moveCharacter(-1 * dt, 0);
         player.setCurrentState(Character::States::WALK);
+        isInMove = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         player.moveCharacter(1 * dt, 0);
         player.setCurrentState(Character::States::WALK);
+        isInMove = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         player.moveCharacter(0, -1 * dt);
         player.setCurrentState(Character::States::WALK);
+        isInMove = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         player.moveCharacter(0, 1 * dt);
         player.setCurrentState(Character::States::WALK);
+        isInMove = true;
     }
-    else {
+    if (!isInMove) {
         player.setCurrentState(Character::States::IDLE);
     }
 }
@@ -88,6 +93,7 @@ void Game::input(float dt) {
 void Game::loadLevel(int number) {
     currentLevel = levelList[number];
     currentLevel.loadLevel();
+    player.level = &currentLevel;
     player.currentSprite.setPosition(currentLevel.getStartPosition());
     player.camera.setCenter(player.currentSprite.getPosition());
     player.setCurrentState(Character::States::IDLE);

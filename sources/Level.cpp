@@ -16,10 +16,15 @@ sf::Vector2f Level::getStartPosition() const {
 Level Level::zeroLevel() {
     Level level;
     level.levelName = "level";
-    level.height = 14;
-    level.width = 22;
+    level.height = 16;
+    level.width = 24;
     level.tileSize.x = level.tileSize.y = 16;
     level.startPosition.x = 160.f;
     level.startPosition.y = 160.f;
+    level.levelMap.setSolidTiles({28,14,36,2});
     return level;
+}
+
+Level::Level() {
+
 }
