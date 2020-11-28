@@ -6,17 +6,28 @@
 #define GAME_BUTTON_H
 
 #include "SFML/Graphics.hpp"
+#include <string>
 
 class Button {
 private:
     sf::Texture texture;
     float x;
     float y;
+    std::string filename;
 public:
-    sf::Sprite playButton(sf::RenderWindow *window, int &levelNumber);
-    sf::Sprite exitButton(sf::RenderWindow *window, int &levelNumber);
-    sf::Sprite optionsButton(sf::RenderWindow *window, int &levelNumber);
+    sf::Sprite sprite;
+
+    Button(float x, float y, const std::string &filename);
+
+    float getX() const;
+
+    void setX(float x);
+
+    float getY() const;
+
+    void setY(float y);
 };
+
 
 
 #endif //GAME_BUTTON_H

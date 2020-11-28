@@ -18,7 +18,7 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
-
+#include "Button.h"
 
 
 class Game {
@@ -28,6 +28,7 @@ private:
     sf:: Event event;
     sf::Clock dtClock;
     std::vector<Character*> characters;
+    std::vector<Button> buttons;
     Player player;
     Level currentLevel;
     int levelNumber;
@@ -35,6 +36,7 @@ private:
     //init functions
     void initWindow();
     void initPlayer();
+    void initMenu();
 
 public:
     Game();

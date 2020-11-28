@@ -16,13 +16,13 @@ void Game::initWindow() {
 Game::Game() {
     this->setLevelNumber(0);
     this->initWindow();
+    this->initPlayer();
+    this->initMenu();
     levelList.push_back(Level::mainMenu());
     levelList.push_back(Level::zeroLevel());
 
     //to avoid generation of hero on menu level
-    if(getLevelNumber()){
-        this->initPlayer();
-    }
+
     this->loadLevel(getLevelNumber());
 }
 
@@ -38,11 +38,8 @@ void Game::render() {
     window->draw(currentLevel.levelMap);
 
     //to draw buttons
-    if(levelNumber == 0) {
-        Button button;
-        window->draw(button.playButton(window, levelNumber));
-    }
-
+    for (const auto &button : buttons)
+        this->window->draw(button.sprite);
 
     //printf("%d %d\n", player.currentSprite.getTexture()->getSize().x, player.currentSprite.getTexture()->getSize().y);
     //this->window->draw(player.currentSprite);
@@ -96,6 +93,12 @@ void Game::input(float dt) {
         player.moveCharacter(0, 1 * dt);
         player.setCurrentState(Character::States::WALK);
     }
+    else if(sf::IntRect(buttons[0].getX(), buttons[0].getY(), 350, 150).contains(sf::Mouse().getPosition(window[0])) && levelNumber == 0){
+            buttons[0].sprite.setColor(sf::Color::Red);
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                levelNumber = 1;
+            }
+    }
     else {
         player.setCurrentState(Character::States::IDLE);
     }
@@ -110,11 +113,20 @@ void Game::loadLevel(int number) {
 }
 
 void Game::initPlayer() {
-    player.setClass(Player::Classes::KNIGHT);
-    player.camera.setSize(400, 300);
-    player.setCurrentState(Character::States::IDLE);
-    characters.push_back(&player);
-    window->setView(player.camera);
+    if(levelNumber == 1) {
+        player.setClass(Player::Classes::KNIGHT);
+        player.camera.setSize(400, 300);
+        player.setCurrentState(Character::States::IDLE);
+        characters.push_back(&player);
+        window->setView(player.camera);
+    }
+}
+
+void Game::initMenu(){
+    if(levelNumber == 0){
+        Button play(670, 490, "play");
+        buttons.push_back(play);
+    }
 }
 
 int Game::getLevelNumber() const {
