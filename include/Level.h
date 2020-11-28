@@ -21,6 +21,7 @@ public:
     TileMap levelMap;
     void loadLevel();
     static Level zeroLevel();
+    static Level mainMenu();
 };
 
 

@@ -24,12 +24,13 @@
 class Game {
 private:
     //variables
-    sf:: RenderWindow *window;
+    sf::RenderWindow* window;
     sf:: Event event;
     sf::Clock dtClock;
     std::vector<Character*> characters;
     Player player;
     Level currentLevel;
+    int levelNumber;
     std::vector<Level> levelList;
     //init functions
     void initWindow();
@@ -38,6 +39,10 @@ private:
 public:
     Game();
     virtual ~Game();
+
+    int getLevelNumber() const;
+
+    void setLevelNumber(int levelNumber);
 
     //functions
     void loadLevel(int number);

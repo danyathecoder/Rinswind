@@ -23,3 +23,16 @@ Level Level::zeroLevel() {
     level.startPosition.y = 160.f;
     return level;
 }
+
+//level "menu"
+Level Level::mainMenu(){
+    Level level;
+    level.levelName = "menu";
+    level.height = 15;
+    level.width = 10;
+    level.tileSize.x = 200;
+    level.tileSize.y = 200;
+    level.startPosition.x = 800.f;
+    level.startPosition.y = 600.f;
+    return level;
+}
