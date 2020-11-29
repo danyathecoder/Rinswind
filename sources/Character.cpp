@@ -70,11 +70,5 @@ void Character::setxDirection(Character::xDirections newDirection) {
     }
 }
 
-void Character::setyDirection(Character::yDirections newDirection) {
-    if (yDirection != newDirection) {
-        yDirection = newDirection;
-        //currentSprite.setOrigin(currentSprite.getOrigin().x, currentSprite.getOrigin().y * (int)yDirection);
-    }
-}
 
 

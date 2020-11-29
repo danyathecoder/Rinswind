@@ -30,9 +30,6 @@ void Game::render() {
 
     window->draw(currentLevel.levelMap);
 
-    //printf("%d %d\n", player.currentSprite.getTexture()->getSize().x, player.currentSprite.getTexture()->getSize().y);
-    //this->window->draw(player.currentSprite);
-
     for (auto &character : characters) {
         this->window->draw(character->currentSprite);
     }
@@ -81,13 +78,11 @@ void Game::input(float dt) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         player.moveCharacter(0, -1 * dt);
         player.setCurrentState(Character::States::WALK);
-        player.setyDirection(Character::yDirections::UP);
         isInMove = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         player.moveCharacter(0, 1 * dt);
         player.setCurrentState(Character::States::WALK);
-        player.setyDirection(Character::yDirections::DOWN);
         isInMove = true;
     }
     if (!isInMove) {

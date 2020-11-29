@@ -22,7 +22,6 @@ public:
     int health;
     float speed;
     enum class xDirections{LEFT, RIGHT};
-    enum class yDirections{UP, DOWN};
     Level *level;
     std::map<States, Anim> animations;
 protected:
@@ -32,9 +31,7 @@ protected:
     std::vector<Character*> *characters;
     States currentState;
     xDirections xDirection = xDirections::RIGHT;
-    yDirections yDirection = yDirections::UP;
 public:
-    void setyDirection(yDirections newDirection);
     void setxDirection(xDirections newDirection);
 };
 
