@@ -20,12 +20,7 @@ public:
     Button(float x, float y, const std::string &filename);
 
     float getX() const;
-
-    void setX(float x);
-
     float getY() const;
-
-    void setY(float y);
 };
 
 

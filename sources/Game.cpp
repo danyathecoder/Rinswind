@@ -16,14 +16,12 @@ void Game::initWindow() {
 Game::Game() {
     this->setLevelNumber(0);
     this->initWindow();
-    this->initPlayer();
-    this->initMenu();
     levelList.push_back(Level::mainMenu());
     levelList.push_back(Level::zeroLevel());
-
-    //to avoid generation of hero on menu level
-
     this->loadLevel(getLevelNumber());
+    this->initPlayer();
+    this->initMenu();
+
 }
 
 Game::~Game() {
@@ -124,7 +122,7 @@ void Game::initPlayer() {
 
 void Game::initMenu(){
     if(levelNumber == 0){
-        Button play(670, 490, "play");
+        static Button play(670, 490, "play");
         buttons.push_back(play);
     }
 }
