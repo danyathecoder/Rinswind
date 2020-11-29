@@ -21,10 +21,16 @@ Character::States Character::getCurrentState() const {
 }
 
 void Character::moveCharacter(float x, float y) {
-    sf::Vector2f nextPosition(currentSprite.getPosition().x + x * speed, currentSprite.getPosition().y + y * speed);
-    if (!checkCollisions(currentSprite.getPosition(), nextPosition)) this->currentSprite.move(x * speed, y * speed);
+    sf::Vector2f dir;
+    dir.x = (float)currentSprite.getTexture()->getSize().x / 2;
+    if (x < 0) dir.x *= -1;
+    dir.y = (float)currentSprite.getTexture()->getSize().y / 2;
+    if (y < 0) dir.y *= 0;
+    sf::Vector2f nextPosition(currentSprite.getPosition().x + x * speed + dir.x, currentSprite.getPosition().y + y * speed + dir.y);
+    if (!checkCollisions(currentSprite.getPosition(), nextPosition))
+        this->currentSprite.move(x * speed, y * speed);
     else {
-        currentSprite.move(-2 * x * speed, -2 * y * speed);
+        currentSprite.move(-1 * x * speed, -1 * y * speed);
     }
 }
 
