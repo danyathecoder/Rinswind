@@ -37,11 +37,11 @@ bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f next
     int** levelMap = level->levelMap.getLevelMap();
     sf::Vector2i mapPos((int)floor(previousPosition.x / 16), (int)floor(previousPosition.y / 16));
     sf::Vector2i nextMapPos((int)floor(nextPosition.x / 16), (int)floor(nextPosition.y / 16));
-    int xDirection = (nextPosition.x >= previousPosition.x) ? 1 : -1;
-    int yDirection = (nextPosition.y >= previousPosition.y) ? 1 : -1;
-    for (int i = mapPos.x; i * xDirection <= nextMapPos.x * xDirection; i += xDirection)
-        for (int j = mapPos.y; j * yDirection <= nextMapPos.y * yDirection; j += yDirection) {
-            if (isSolid(levelMap[j + ((yDirection > 0)?2:1)][i + ((xDirection > 0)?1:0)], level->levelMap.getSolidTiles())) return true;
+    int xDir = (nextPosition.x >= previousPosition.x) ? 1 : -1;
+    int yDir = (nextPosition.y >= previousPosition.y) ? 1 : -1;
+    for (int i = mapPos.x; i * xDir <= nextMapPos.x * xDir; i += xDir)
+        for (int j = mapPos.y; j * yDir <= nextMapPos.y * yDir; j += yDir) {
+            if (isSolid(levelMap[j/*+ ((yDir > 0)?2:1)*/][i/*+ ((xDir > 0)?1:0)*/], level->levelMap.getSolidTiles())) return true;
         }
     return false;
 }
@@ -55,6 +55,20 @@ bool Character::isSolid(int tile, const std::vector<int> &solidTiles) {
         if (current == tile) return true;
     }
     return false;
+}
+
+void Character::setxDirection(Character::xDirections newDirection) {
+    if (xDirection != newDirection) {
+        xDirection = newDirection;
+        currentSprite.scale(-1.f, 1.f);
+    }
+}
+
+void Character::setyDirection(Character::yDirections newDirection) {
+    if (yDirection != newDirection) {
+        yDirection = newDirection;
+        //currentSprite.setOrigin(currentSprite.getOrigin().x, currentSprite.getOrigin().y * (int)yDirection);
+    }
 }
 
 

@@ -33,8 +33,9 @@ void Game::render() {
     //printf("%d %d\n", player.currentSprite.getTexture()->getSize().x, player.currentSprite.getTexture()->getSize().y);
     //this->window->draw(player.currentSprite);
 
-    for (const auto & character : characters)
+    for (auto &character : characters) {
         this->window->draw(character->currentSprite);
+    }
 
     //render items
 
@@ -68,21 +69,25 @@ void Game::input(float dt) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         player.moveCharacter(-1 * dt, 0);
         player.setCurrentState(Character::States::WALK);
+        player.setxDirection(Character::xDirections::LEFT);
         isInMove = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         player.moveCharacter(1 * dt, 0);
         player.setCurrentState(Character::States::WALK);
+        player.setxDirection(Character::xDirections::RIGHT);
         isInMove = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         player.moveCharacter(0, -1 * dt);
         player.setCurrentState(Character::States::WALK);
+        player.setyDirection(Character::yDirections::UP);
         isInMove = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         player.moveCharacter(0, 1 * dt);
         player.setCurrentState(Character::States::WALK);
+        player.setyDirection(Character::yDirections::DOWN);
         isInMove = true;
     }
     if (!isInMove) {
@@ -101,7 +106,6 @@ void Game::loadLevel(int number) {
 
 void Game::initPlayer() {
     player.setClass(Player::Classes::KNIGHT);
-
     player.camera.setSize(400, 300);
     player.setCurrentState(Character::States::IDLE);
     characters.push_back(&player);
