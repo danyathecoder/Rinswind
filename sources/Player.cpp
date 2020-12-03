@@ -34,7 +34,11 @@ void Player::setClass(Classes newClass) {
 
 void Player::setKnight() {
     this->health = 100;
+// <<<<<<< sevendart
     this->speed = 100;
+// =======
+//     this->speed = 80;
+// >>>>>>> danyathecoder
     Anim idle, walk;
     std::string pathToIdle = "../resources/Animations/Knight/knight_m_idle_anim_f";
     std::string pathToWalk = "../resources/Animations/Knight/knight_m_run_anim_f";

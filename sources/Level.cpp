@@ -27,6 +27,20 @@ Level Level::zeroLevel() {
     return level;
 }
 
+// <<<<<<< sevendart
 Level::Level() {
 
+// =======
+// //level "menu"
+// Level Level::mainMenu(){
+//     Level level;
+//     level.levelName = "menu";
+//     level.height = 15;
+//     level.width = 10;
+//     level.tileSize.x = 200;
+//     level.tileSize.y = 200;
+//     level.startPosition.x = 800.f;
+//     level.startPosition.y = 600.f;
+//     return level;
+// >>>>>>> danyathecoder
 }
