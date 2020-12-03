@@ -18,6 +18,7 @@ private:
     int speed = 10;
     float currentFrame = 0;
     int size = 0;
+    bool isReversed = false;
     sf::Texture *frames;
 };
 

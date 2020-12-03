@@ -27,12 +27,18 @@ private:
     sf::RenderWindow* window;
     sf:: Event event;
     sf::Clock dtClock;
-    std::vector<Character*> characters;
-    std::vector<Button> buttons;
+// <<<<<<< sevendart
     Player player;
-    Level currentLevel;
-    int levelNumber;
-    std::vector<Level> levelList;
+    int currentLevel;
+    std::vector<Level> levels;
+// =======
+//     std::vector<Character*> characters;
+//     std::vector<Button> buttons;
+//     Player player;
+//     Level currentLevel;
+//     int levelNumber;
+//     std::vector<Level> levelList;
+// >>>>>>> danyathecoder
     //init functions
     void initWindow();
     void initPlayer();
@@ -52,7 +58,6 @@ public:
     void update();
     void render();
     void run();
-    void updateDt();
     void input(float dt);
 
 };

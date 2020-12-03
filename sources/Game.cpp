@@ -16,12 +16,18 @@ void Game::initWindow() {
 Game::Game() {
     this->setLevelNumber(0);
     this->initWindow();
-    levelList.push_back(Level::mainMenu());
-    levelList.push_back(Level::zeroLevel());
-    this->loadLevel(getLevelNumber());
+// <<<<<<< sevendart
     this->initPlayer();
-    this->initMenu();
+    levels.push_back(Level::zeroLevel());
+    this->loadLevel(0);
+// =======
+//     levelList.push_back(Level::mainMenu());
+//     levelList.push_back(Level::zeroLevel());
+//     this->loadLevel(getLevelNumber());
+//     this->initPlayer();
+//     this->initMenu();
 
+// >>>>>>> danyathecoder
 }
 
 Game::~Game() {
@@ -33,19 +39,26 @@ void Game::render() {
     window->setView(player.camera);
     this->window->clear();
 
-    window->draw(currentLevel.levelMap);
+    window->draw(levels[currentLevel].levelMap);
+    window->draw(player.currentSprite);
 
-    //to draw buttons
-    for (const auto &button : buttons)
-        this->window->draw(button.sprite);
+// <<<<<<< sevendart
+    for (auto &character: levels[currentLevel].characters) {
+        this->window->draw(character.currentSprite);
+    }
+// =======
+//     //to draw buttons
+//     for (const auto &button : buttons)
+//         this->window->draw(button.sprite);
 
-    //printf("%d %d\n", player.currentSprite.getTexture()->getSize().x, player.currentSprite.getTexture()->getSize().y);
-    //this->window->draw(player.currentSprite);
+//     //printf("%d %d\n", player.currentSprite.getTexture()->getSize().x, player.currentSprite.getTexture()->getSize().y);
+//     //this->window->draw(player.currentSprite);
 
-    for (const auto & character : characters)
-        this->window->draw(character->currentSprite);
+//     for (const auto & character : characters)
+//         this->window->draw(character->currentSprite);
 
-    //render items
+//     //render items
+// >>>>>>> danyathecoder
 
     this->window->display();
 }
@@ -63,8 +76,9 @@ void Game::update() {
     float dt = dtClock.restart().asSeconds();
     this->input(dt);
     this->updateSFMLEvents();
-    for (auto & character : characters)
-        character->updateSprite(dt);
+    player.updateSprite(dt);
+    for (Character &character: levels[currentLevel].characters)
+        character.updateSprite(dt);
 }
 
 void Game::updateSFMLEvents() {
@@ -75,62 +89,81 @@ void Game::updateSFMLEvents() {
 }
 
 void Game::input(float dt) {
+    bool isInMove = false;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         player.moveCharacter(-1 * dt, 0);
         player.setCurrentState(Character::States::WALK);
+        player.setxDirection(Character::xDirections::LEFT);
+        isInMove = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         player.moveCharacter(1 * dt, 0);
         player.setCurrentState(Character::States::WALK);
+        player.setxDirection(Character::xDirections::RIGHT);
+        isInMove = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         player.moveCharacter(0, -1 * dt);
         player.setCurrentState(Character::States::WALK);
+        isInMove = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         player.moveCharacter(0, 1 * dt);
         player.setCurrentState(Character::States::WALK);
+        isInMove = true;
     }
-    else if(sf::IntRect(buttons[0].getX(), buttons[0].getY(), 350, 150).contains(sf::Mouse().getPosition(window[0])) && levelNumber == 0){
-            buttons[0].sprite.setColor(sf::Color::Red);
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                levelNumber = 1;
-            }
-    }
-    else {
+// <<<<<<< sevendart
+    if (!isInMove) {
+// =======
+//     else if(sf::IntRect(buttons[0].getX(), buttons[0].getY(), 350, 150).contains(sf::Mouse().getPosition(window[0])) && levelNumber == 0){
+//             buttons[0].sprite.setColor(sf::Color::Red);
+//             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+//                 levelNumber = 1;
+//             }
+//     }
+//     else {
+// >>>>>>> danyathecoder
         player.setCurrentState(Character::States::IDLE);
     }
 }
 
 void Game::loadLevel(int number) {
-    currentLevel = levelList[number];
-    currentLevel.loadLevel();
-    player.currentSprite.setPosition(currentLevel.getStartPosition());
+    currentLevel = number;
+    levels[currentLevel].loadLevel();
+    player.level = &levels[currentLevel];
+    player.currentSprite.setPosition(levels[currentLevel].getStartPosition());
     player.camera.setCenter(player.currentSprite.getPosition());
     player.setCurrentState(Character::States::IDLE);
 }
 
 void Game::initPlayer() {
-    if(levelNumber == 1) {
-        player.setClass(Player::Classes::KNIGHT);
-        player.camera.setSize(400, 300);
-        player.setCurrentState(Character::States::IDLE);
-        characters.push_back(&player);
-        window->setView(player.camera);
-    }
-}
+// <<<<<<< sevendart
+    player.setClass(Player::Classes::KNIGHT);
+    player.camera.setSize(400, 300);
+    player.setCurrentState(Character::States::IDLE);
+    window->setView(player.camera);
+// =======
+//     if(levelNumber == 1) {
+//         player.setClass(Player::Classes::KNIGHT);
+//         player.camera.setSize(400, 300);
+//         player.setCurrentState(Character::States::IDLE);
+//         characters.push_back(&player);
+//         window->setView(player.camera);
+//     }
+// }
 
-void Game::initMenu(){
-    if(levelNumber == 0){
-        static Button play(670, 490, "play");
-        buttons.push_back(play);
-    }
-}
+// void Game::initMenu(){
+//     if(levelNumber == 0){
+//         static Button play(670, 490, "play");
+//         buttons.push_back(play);
+//     }
+// }
 
-int Game::getLevelNumber() const {
-    return levelNumber;
-}
+// int Game::getLevelNumber() const {
+//     return levelNumber;
+// }
 
-void Game::setLevelNumber(int levelNumber) {
-    Game::levelNumber = levelNumber;
+// void Game::setLevelNumber(int levelNumber) {
+//     Game::levelNumber = levelNumber;
+// >>>>>>> danyathecoder
 }
