@@ -26,13 +26,14 @@ public:
     std::map<States, Anim> animations;
 protected:
     static bool isSolid(int tile, const std::vector<int> &solidTiles);
+    static bool isContains(sf::Vector2f checking, sf::Vector2u size, sf::Vector2f leftUpPoint);
     bool checkCollisions(sf::Vector2f previousPosition, sf::Vector2f nextPosition);
-    void getCollision(Character& collisionObject);
-    std::vector<Character*> *characters;
+    void getCollision(Character* collisionObject);
     States currentState;
     xDirections xDirection = xDirections::RIGHT;
 public:
     void setxDirection(xDirections newDirection);
+    static Character Goblin(float xPosition, float yPosition, Level *currentLevel);
 };
 
 #endif //GAME_CHARACTER_H

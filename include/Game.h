@@ -27,10 +27,9 @@ private:
     sf:: RenderWindow *window;
     sf:: Event event;
     sf::Clock dtClock;
-    std::vector<Character*> characters;
     Player player;
-    Level currentLevel;
-    std::vector<Level> levelList;
+    int currentLevel;
+    std::vector<Level> levels;
     //init functions
     void initWindow();
     void initPlayer();

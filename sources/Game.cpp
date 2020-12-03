@@ -15,7 +15,7 @@ void Game::initWindow() {
 Game::Game() {
     this->initWindow();
     this->initPlayer();
-    levelList.push_back(Level::zeroLevel());
+    levels.push_back(Level::zeroLevel());
     this->loadLevel(0);
 }
 
@@ -28,13 +28,12 @@ void Game::render() {
     window->setView(player.camera);
     this->window->clear();
 
-    window->draw(currentLevel.levelMap);
+    window->draw(levels[currentLevel].levelMap);
+    window->draw(player.currentSprite);
 
-    for (auto &character : characters) {
-        this->window->draw(character->currentSprite);
+    for (auto &character: levels[currentLevel].characters) {
+        this->window->draw(character.currentSprite);
     }
-
-    //render items
 
     this->window->display();
 }
@@ -50,8 +49,9 @@ void Game::update() {
     float dt = dtClock.restart().asSeconds();
     this->input(dt);
     this->updateSFMLEvents();
-    for (auto & character : characters)
-        character->updateSprite(dt);
+    player.updateSprite(dt);
+    for (Character &character: levels[currentLevel].characters)
+        character.updateSprite(dt);
 }
 
 void Game::updateSFMLEvents() {
@@ -91,10 +91,10 @@ void Game::input(float dt) {
 }
 
 void Game::loadLevel(int number) {
-    currentLevel = levelList[number];
-    currentLevel.loadLevel();
-    player.level = &currentLevel;
-    player.currentSprite.setPosition(currentLevel.getStartPosition());
+    currentLevel = number;
+    levels[currentLevel].loadLevel();
+    player.level = &levels[currentLevel];
+    player.currentSprite.setPosition(levels[currentLevel].getStartPosition());
     player.camera.setCenter(player.currentSprite.getPosition());
     player.setCurrentState(Character::States::IDLE);
 }
@@ -103,6 +103,5 @@ void Game::initPlayer() {
     player.setClass(Player::Classes::KNIGHT);
     player.camera.setSize(400, 300);
     player.setCurrentState(Character::States::IDLE);
-    characters.push_back(&player);
     window->setView(player.camera);
 }

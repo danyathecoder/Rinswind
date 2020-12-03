@@ -3,6 +3,7 @@
 //
 
 #include "../include/Level.h"
+#include "../include/Character.h"
 
 void Level::loadLevel() {
     levelMap.load("../resources/" + levelName + ".png", tileSize, "../resources/" + levelName + ".txt", width, height);
@@ -22,6 +23,7 @@ Level Level::zeroLevel() {
     level.startPosition.x = 160.f;
     level.startPosition.y = 160.f;
     level.levelMap.setSolidTiles({28,14,36,2});
+    level.characters.push_back(Character::Goblin(80.f, 80.f, &level));
     return level;
 }
 

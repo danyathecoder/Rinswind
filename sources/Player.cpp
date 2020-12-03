@@ -16,8 +16,8 @@ void Player::moveCharacter(float x, float y) {
         camera.move(x * speed, y * speed);
     }
     else {
-        this->currentSprite.move(x * speed * -1, y * speed * -1);
-        camera.move(x * speed * -1, y * speed * -1);
+        this->currentSprite.move(x * speed * -1 / 2, y * speed * -1 / 2);
+        camera.move(x * speed * -1 / 2, y * speed * -1 / 2);
     }
 }
 
