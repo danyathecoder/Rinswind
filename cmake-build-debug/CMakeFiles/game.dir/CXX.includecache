@@ -1,0 +1,86 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Anim.h
+SFML/Graphics.hpp
+-
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Button.h
+SFML/Graphics.hpp
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/SFML/Graphics.hpp
+string
+-
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Character.h
+SFML/Graphics.hpp
+-
+Anim.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Anim.h
+map
+-
+Level.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Level.h
+vector
+-
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Game.h
+iostream
+-
+ctime
+-
+cstdlib
+-
+vector
+-
+Character.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Character.h
+Player.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Player.h
+Level.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Level.h
+SFML/System.hpp
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/SFML/System.hpp
+SFML/Window.hpp
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/SFML/Window.hpp
+SFML/Graphics.hpp
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/SFML/Graphics.hpp
+SFML/Audio.hpp
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/SFML/Audio.hpp
+Button.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Button.h
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Level.h
+TileMap.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/TileMap.h
+Anim.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Anim.h
+Button.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Button.h
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Player.h
+Character.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Character.h
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/TileMap.h
+SFML/Graphics.hpp
+-
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/Button.cpp
+../include/Button.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Button.h
+SFML/Graphics.hpp
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/SFML/Graphics.hpp
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/Game.cpp
+../include/Game.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Game.h
+string
+-
+../include/Anim.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Anim.h
+

@@ -1,0 +1,3 @@
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/cmake-build-debug/CMakeFiles/game.dir
