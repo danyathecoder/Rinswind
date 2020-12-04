@@ -1,5 +1,6 @@
 #include "../include/TileMap.h"
 #include <fstream>
+#include <utility>
 
 void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform *= getTransform();
@@ -65,14 +66,19 @@ int **TileMap::loadLevel(const std::string &level, unsigned int width, unsigned 
     return result;
 }
 
-int **TileMap::getLevelMapImmutable() {
-    int **levelMapImmutable = new int*[height];
-    for (int i = 0; i < height; i++) {
-        levelMapImmutable[i] = new int[width];
-        for (int j = 0; j < width; j++) {
-            levelMapImmutable[i][j] = levelMap[i][j];
-        }
-    }
-    return levelMapImmutable;
+int** TileMap::getLevelMap() {
+    return levelMap;
+}
+
+const std::vector<int> &TileMap::getSolidTiles() {
+    return solidTiles;
+}
+
+TileMap::TileMap() {
+
+}
+
+void TileMap::setSolidTiles(std::vector<int> tiles) {
+    solidTiles = std::move(tiles);
 }
 

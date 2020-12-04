@@ -18,27 +18,39 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
-
+#include "Button.h"
 
 
 class Game {
 private:
     //variables
-    sf:: RenderWindow *window;
+    sf::RenderWindow* window;
     sf:: Event event;
-    float dt;
     sf::Clock dtClock;
-    std::vector<Character> characters;
+// <<<<<<< sevendart
     Player player;
-    Level currentLevel;
-    std::vector<Level> levelList;
+    int currentLevel;
+    std::vector<Level> levels;
+// =======
+//     std::vector<Character*> characters;
+//     std::vector<Button> buttons;
+//     Player player;
+//     Level currentLevel;
+//     int levelNumber;
+//     std::vector<Level> levelList;
+// >>>>>>> danyathecoder
     //init functions
     void initWindow();
     void initPlayer();
+    void initMenu();
 
 public:
     Game();
     virtual ~Game();
+
+    int getLevelNumber() const;
+
+    void setLevelNumber(int levelNumber);
 
     //functions
     void loadLevel(int number);
@@ -46,8 +58,8 @@ public:
     void update();
     void render();
     void run();
-    void updateDt();
-    void input();
+    void input(float dt);
+
 };
 
 
