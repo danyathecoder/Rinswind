@@ -20,7 +20,6 @@ public:
     Level();
     sf::Vector2f getStartPosition() const;
     std::vector<Character> characters;
-    //сюда необходим список врагов, триггеров уровня, потом будет допилено
     TileMap levelMap;
     void loadLevel();
     static Level zeroLevel();
