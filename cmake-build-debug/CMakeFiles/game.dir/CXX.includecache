@@ -70,11 +70,35 @@ Character.h
 SFML/Graphics.hpp
 -
 
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/main.cpp
+iostream
+-
+ctime
+-
+cstdlib
+-
+SFML/Graphics.hpp
+-
+include/Game.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Game.h
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/Anim.cpp
+../include/Anim.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Anim.h
+
 /home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/Button.cpp
 ../include/Button.h
 /home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Button.h
 SFML/Graphics.hpp
 /home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/SFML/Graphics.hpp
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/Character.cpp
+../include/Level.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Level.h
+../include/Character.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Character.h
+cmath
+-
 
 /home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/Game.cpp
 ../include/Game.h
@@ -83,4 +107,22 @@ string
 -
 ../include/Anim.h
 /home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Anim.h
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/Level.cpp
+../include/Level.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Level.h
+../include/Character.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Character.h
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/Player.cpp
+../include/Player.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/Player.h
+
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/sources/TileMap.cpp
+../include/TileMap.h
+/home/danilapoddubny/Programming/C++/CP-PL term3/Course project/gameRPG/include/TileMap.h
+fstream
+-
+utility
+-
 
