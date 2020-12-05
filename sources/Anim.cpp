@@ -17,10 +17,14 @@ bool Anim::load(std::string animFile, int count) {
 
 sf::Texture &Anim::nextFrame(float elapsedTime) {
     currentFrame += (elapsedTime * (float)speed);
-    if (currentFrame > (float)size) currentFrame -= (float)size;
+    if (currentFrame > (float)size) {
+        currentFrame -= (float) size;
+        isFinished = true;
+    }
     return frames[(int)currentFrame % size];
 }
 
 void Anim::reset() {
     currentFrame = 0;
+    isFinished = false;
 }

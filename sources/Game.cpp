@@ -102,6 +102,8 @@ void Game::loadLevel(int number) {
     player.currentSprite.setPosition(levels[currentLevel].getStartPosition());
     player.camera.setCenter(player.currentSprite.getPosition());
     player.setCurrentState(Character::States::IDLE);
+    for (auto &character: levels[currentLevel].characters)
+        character.level = &levels[currentLevel];
 }
 
 void Game::initPlayer() {

@@ -5,9 +5,11 @@
 #include "../include/Level.h"
 #include "../include/Character.h"
 #include <cmath>
+#include <iostream>
 
 void Character::updateSprite(float elapsedTime) {
     currentSprite.setTexture(animations[currentState].nextFrame(elapsedTime));
+    if (currentState == States::HIT && animations[currentState].isFinished) currentState = States::IDLE;
 }
 
 
@@ -57,7 +59,7 @@ bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f next
         charLUP.y -= ((float)charSize.y / 2);
         if (isContains(nextLUP, selfSize, this->padding, charSize, charLUP, character.padding)) {
             character.getCollision(this);
-            //this->getCollision(&character);
+            this->getCollision(&character);
             return true;
         }
     }
@@ -101,7 +103,9 @@ bool Character::isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Ve
 }
 
 void Character::getCollision(Character* collisionObject) {
-    //collisionObject->moveCharacter(0.05f, 0.05f);
+    std::cout << "collision Object :" << collisionObject->name << "\n";
+    collisionObject->getDamage(0);
+    collisionObject->moveCharacter(0.01f, 0.01f);
 }
 
 bool Character::isSolid(int tile, const std::vector<int> &solidTiles) {
@@ -118,16 +122,19 @@ void Character::setxDirection(Character::xDirections newDirection) {
     }
 }
 
-Character Character::Goblin(float xPosition, float yPosition, Level *currentLevel) {
+Character Character::Goblin(float xPosition, float yPosition) {
     Character goblin;
-    goblin.level = currentLevel;
     goblin.health = 100;
     goblin.speed = 100;
-    Anim idle, walk;
+    Anim idle, walk, hit;
+    hit.speed = 5;
     std::string pathToIdle = "../resources/Animations/Goblin/goblin_idle_anim_f";
     std::string pathToWalk = "../resources/Animations/Goblin/goblin_run_anim_f";
+    std::string pathToHit = "../resources/Animations/Goblin/goblin_hit_anim_f";
     idle.load(pathToIdle, 4);
     walk.load(pathToWalk, 4);
+    hit.load(pathToHit, 1);
+    goblin.animations[States::HIT] = hit;
     goblin.animations[States::IDLE] = idle;
     goblin.animations[States::WALK] = walk;
     goblin.setCurrentState(States::IDLE);
@@ -138,7 +145,16 @@ Character Character::Goblin(float xPosition, float yPosition, Level *currentLeve
     goblin.currentSprite.setPosition(xPosition, yPosition);
     goblin.padding = sf::Vector2f(0.49f, 0.49f);
     //goblin.currentSprite.scale(2.f, 2.f);
+    goblin.name = "goblin";
     return goblin;
+}
+
+void Character::getDamage(int damage) {
+    if (health - damage < 0) delete(this);
+    else {
+        health -= damage;
+        setCurrentState(States::HIT);
+    }
 }
 
 

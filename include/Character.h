@@ -13,6 +13,7 @@
 
 class Character{
 public:
+    std::string name;
     enum class States{IDLE, WALK, ATTACK, HIT};
     States getCurrentState() const;
     void setCurrentState(States newState);
@@ -34,8 +35,9 @@ protected:
     States currentState;
     xDirections xDirection = xDirections::RIGHT;
 public:
+    void getDamage(int damage);
     void setxDirection(xDirections newDirection);
-    static Character Goblin(float xPosition, float yPosition, Level *currentLevel);
+    static Character Goblin(float xPosition, float yPosition);
     sf::Vector2f padding;
 };
 
