@@ -13,6 +13,7 @@
 
 class Character{
 public:
+    std::string name;
     enum class States{IDLE, WALK, ATTACK, HIT};
     States getCurrentState() const;
     void setCurrentState(States newState);
@@ -26,14 +27,18 @@ public:
     std::map<States, Anim> animations;
 protected:
     static bool isSolid(int tile, const std::vector<int> &solidTiles);
-    static bool isContains(sf::Vector2f checking, sf::Vector2u size, sf::Vector2f leftUpPoint);
+    static bool
+    isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Vector2f firstPadding, sf::Vector2u secondSize,
+               sf::Vector2f secondLUP, sf::Vector2f secondPadding);
     bool checkCollisions(sf::Vector2f previousPosition, sf::Vector2f nextPosition);
     void getCollision(Character* collisionObject);
     States currentState;
     xDirections xDirection = xDirections::RIGHT;
 public:
+    void getDamage(int damage);
     void setxDirection(xDirections newDirection);
-    static Character Goblin(float xPosition, float yPosition, Level *currentLevel);
+    static Character Goblin(float xPosition, float yPosition);
+    sf::Vector2f padding;
 };
 
 #endif //GAME_CHARACTER_H

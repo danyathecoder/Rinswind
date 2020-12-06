@@ -14,11 +14,11 @@ public:
     bool load(std::string animFile, int count);
     void reset();
     sf::Texture &nextFrame(float elapsedTime);
-private:
+    bool isFinished = false;
     int speed = 10;
-    float currentFrame = 0;
+private:
     int size = 0;
-    bool isReversed = false;
+    float currentFrame = 0;
     sf::Texture *frames;
 };
 
