@@ -4,6 +4,7 @@
 
 #include "../include/Level.h"
 #include "../include/Character.h"
+#include "../include/Game.h"
 
 void Level::loadLevel() {
     levelMap.load("../resources/" + levelName + ".png", tileSize, "../resources/" + levelName + ".txt", width, height);
@@ -27,20 +28,29 @@ Level Level::zeroLevel() {
     return level;
 }
 
-// <<<<<<< sevendart
 Level::Level() {
-
-// =======
-// //level "menu"
-// Level Level::mainMenu(){
-//     Level level;
-//     level.levelName = "menu";
-//     level.height = 15;
-//     level.width = 10;
-//     level.tileSize.x = 200;
-//     level.tileSize.y = 200;
-//     level.startPosition.x = 800.f;
-//     level.startPosition.y = 600.f;
-//     return level;
-// >>>>>>> danyathecoder
 }
+
+ Level Level::mainMenu() {
+     Level menu;
+     menu.levelName = "menu";
+     menu.height = 15;
+     menu.width = 10;
+     menu.tileSize.x = 200;
+     menu.tileSize.y = 200;
+     menu.startPosition.y = 600.f;
+     menu.startPosition.x = 800.f;
+     menu.buttons.push_back(Button::createButton(670,390,"play"));
+     menu.buttons.push_back(Button::createButton(600,540,"options2"));
+     menu.buttons.push_back(Button::createButton(670,690,"quit"));
+     for(Button& button : menu.buttons){
+         button.sprite.setColor(sf::Color::Yellow);
+     }
+     menu.buttons[0].actionPlay = [](int &nextLevel){
+         nextLevel = 1;
+     };
+     menu.buttons[2].actionQuit = [](sf::RenderWindow* window){
+         delete window;
+     };
+     return menu;
+ }

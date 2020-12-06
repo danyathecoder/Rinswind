@@ -22,22 +22,16 @@
 //    return button;
 //}
 
-float Button::getX() const {
-    return x;
+
+
+Button Button::createButton(float x, float y, const std::string &filename) {
+    Button play;
+    play.sprite.setPosition(x, y);
+    play.filename = filename;
+    play.texture.loadFromFile("../resources/" + filename + ".png");
+    return play;
 }
 
-
-
-float Button::getY() const {
-    return y;
+void Button::setTexture() {
+    sprite.setTexture(texture);
 }
-
-
-Button::Button(float x, float y, const std::string &filename) : x(x), y(y), filename(filename) {
-
-    static sf::Texture texture;
-    texture.loadFromFile("../resources/" + filename + ".png");
-    static sf::Sprite sprite(texture);
-    sprite.setColor(sf::Color::Yellow);
-}
-
