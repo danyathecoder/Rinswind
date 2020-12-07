@@ -10,7 +10,6 @@
 
 class Anim {
 public:
-    std::string name;
     bool load(std::string animFile, int count);
     void reset();
     sf::Texture &nextFrame(float elapsedTime);

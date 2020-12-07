@@ -27,11 +27,10 @@ public:
     std::map<States, Anim> animations;
 protected:
     static bool isSolid(int tile, const std::vector<int> &solidTiles);
-    static bool
-    isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Vector2f firstPadding, sf::Vector2u secondSize,
-               sf::Vector2f secondLUP, sf::Vector2f secondPadding);
+    static bool isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Vector2f firstPadding,
+                           sf::Vector2u secondSize, sf::Vector2f secondLUP, sf::Vector2f secondPadding);
     bool checkCollisions(sf::Vector2f previousPosition, sf::Vector2f nextPosition);
-    void getCollision(Character* collisionObject);
+    /*virtual */void getCollision(Character* collisionObject);
     States currentState;
     xDirections xDirection = xDirections::RIGHT;
 public:
