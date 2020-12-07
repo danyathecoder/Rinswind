@@ -30,7 +30,6 @@ private:
 // <<<<<<< sevendart
     Player player;
     int currentLevel;
-    int nextLevel;
     std::vector<Level> levels;
 // =======
 //     std::vector<Character*> characters;

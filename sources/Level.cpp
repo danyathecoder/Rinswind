@@ -46,8 +46,8 @@ Level::Level() {
      for(Button& button : menu.buttons){
          button.sprite.setColor(sf::Color::Yellow);
      }
-     menu.buttons[0].actionPlay = [](int &nextLevel){
-         nextLevel = 1;
+     menu.buttons[0].actionPlay = [](int &currentLevel){
+         currentLevel = 1;
      };
      menu.buttons[2].actionQuit = [](sf::RenderWindow* window){
          delete window;

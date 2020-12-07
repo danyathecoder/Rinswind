@@ -15,7 +15,6 @@ void Game::initWindow() {
 
 Game::Game() {
     currentLevel = 0;
-    nextLevel = 0;
     this->initWindow();
     if(currentLevel > 0) this->initPlayer();
     levels.push_back(Level::mainMenu());
@@ -53,9 +52,6 @@ void Game::run() {
         while (this->window->isOpen()) {
             this->render();
             this->update();
-            if(currentLevel != nextLevel){
-                currentLevel = nextLevel;
-            }
         }
 }
 
@@ -110,9 +106,11 @@ void Game::input(float dt) {
     if(currentLevel == 0){
         if(sf::IntRect(300, 180, 200, 100).contains(mouse.getPosition(window[0]))) {
             levels[currentLevel].buttons[0].sprite.setColor(sf::Color::Red);
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                 //менять текущий нельзя прямо сейчас или все крашнется, поэтому мы узнаем следующий уровень и в конце итерации сменим
-                levels[currentLevel].buttons[0].actionPlay(nextLevel);
+                levels[currentLevel].buttons[0].actionPlay(currentLevel);
+                initPlayer();
+            }
         }
         if(sf::IntRect(300, 364, 200, 100).contains(mouse.getPosition(window[0]))) {
             levels[currentLevel].buttons[2].sprite.setColor(sf::Color::Red);
