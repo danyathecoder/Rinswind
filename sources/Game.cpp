@@ -116,7 +116,6 @@ void Game::input(float dt) {
             levels[currentLevel].buttons[2].sprite.setColor(sf::Color::Red);
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 levels[currentLevel].buttons[2].actionQuit(window);
-                exit(0);
             }
         }
         std::cout << mouse.getPosition(window[0]).x << " " <<  mouse.getPosition(window[0]).y << '\n';

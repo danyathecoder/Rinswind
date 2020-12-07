@@ -51,6 +51,7 @@ Level::Level() {
      };
      menu.buttons[2].actionQuit = [](sf::RenderWindow* window){
          delete window;
+         exit(0);
      };
      return menu;
  }
