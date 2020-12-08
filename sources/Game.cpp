@@ -110,6 +110,7 @@ void Game::input(float dt) {
                 //менять текущий нельзя прямо сейчас или все крашнется, поэтому мы узнаем следующий уровень и в конце итерации сменим
                 levels[currentLevel].buttons[0].actionPlay(currentLevel);
                 initPlayer();
+                this->loadLevel(currentLevel);
             }
         }
         if(sf::IntRect(300, 364, 200, 100).contains(mouse.getPosition(window[0]))) {

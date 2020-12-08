@@ -105,7 +105,6 @@ bool Character::isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Ve
 void Character::getCollision(Character* collisionObject) {
     std::cout << "collision Object :" << collisionObject->name << "\n";
     collisionObject->getDamage(0);
-    collisionObject->moveCharacter(0.01f, 0.01f);
 }
 
 bool Character::isSolid(int tile, const std::vector<int> &solidTiles) {
