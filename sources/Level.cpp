@@ -48,7 +48,6 @@ Level::Level() {
      }
      menu.buttons[0].actionPlay = [](int &currentLevel){
          currentLevel = 1;
-         this->loadLevel(currentLevel);
      };
      menu.buttons[2].actionQuit = [](sf::RenderWindow* window){
          delete window;
