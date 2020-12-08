@@ -74,7 +74,29 @@ void Game::updateSFMLEvents() {
 }
 
 void Game::input(float dt) {
-    sf::Mouse mouse;
+    keyboardLocker(dt, currentLevel);
+    mouseLocker(currentLevel);
+}
+
+void Game::loadLevel(int number) {
+    currentLevel = number;
+    levels[currentLevel].loadLevel();
+    player.level = &levels[currentLevel];
+    player.currentSprite.setPosition(levels[currentLevel].getStartPosition());
+    player.camera.setCenter(player.currentSprite.getPosition());
+    player.setCurrentState(Character::States::IDLE);
+    for (auto &character: levels[currentLevel].characters)
+        character.level = &levels[currentLevel];
+}
+
+void Game::initPlayer() {
+    player.setClass(Player::Classes::KNIGHT);
+    player.camera.setSize(400, 300);
+    player.setCurrentState(Character::States::IDLE);
+    window->setView(player.camera);
+}
+
+void Game::keyboardLocker(float dt, int currentLevel){
     if(currentLevel > 0) {
         bool isInMove = false;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
@@ -103,42 +125,22 @@ void Game::input(float dt) {
             player.setCurrentState(Character::States::IDLE);
         }
     }
+}
+
+void Game::mouseLocker(int currentLevel){
     if(currentLevel == 0){
-        if(sf::IntRect(300, 180, 200, 100).contains(mouse.getPosition(window[0]))) {
-            levels[currentLevel].buttons[0].sprite.setColor(sf::Color::Red);
+        if(sf::IntRect(300, 180, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                //менять текущий нельзя прямо сейчас или все крашнется, поэтому мы узнаем следующий уровень и в конце итерации сменим
                 levels[currentLevel].buttons[0].actionPlay(currentLevel);
                 initPlayer();
                 this->loadLevel(currentLevel);
             }
         }
-        if(sf::IntRect(300, 364, 200, 100).contains(mouse.getPosition(window[0]))) {
-            levels[currentLevel].buttons[2].sprite.setColor(sf::Color::Red);
+        if(sf::IntRect(300, 364, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 levels[currentLevel].buttons[2].actionQuit(window);
             }
         }
-        std::cout << mouse.getPosition(window[0]).x << " " <<  mouse.getPosition(window[0]).y << '\n';
     }
 }
-
-void Game::loadLevel(int number) {
-    currentLevel = number;
-    levels[currentLevel].loadLevel();
-    player.level = &levels[currentLevel];
-    player.currentSprite.setPosition(levels[currentLevel].getStartPosition());
-    player.camera.setCenter(player.currentSprite.getPosition());
-    player.setCurrentState(Character::States::IDLE);
-    for (auto &character: levels[currentLevel].characters)
-        character.level = &levels[currentLevel];
-}
-
-void Game::initPlayer() {
-    player.setClass(Player::Classes::KNIGHT);
-    player.camera.setSize(400, 300);
-    player.setCurrentState(Character::States::IDLE);
-    window->setView(player.camera);
-}
-
 

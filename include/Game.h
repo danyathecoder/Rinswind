@@ -42,11 +42,14 @@ private:
     //init functions
     void initWindow();
     void initPlayer();
-    void initMenu();
+    void keyboardLocker(float dt, int currentLevel);
+    void mouseLocker(int currentLevel);
+
 
 public:
     Game();
     virtual ~Game();
+
 
     int getLevelNumber() const;
 
