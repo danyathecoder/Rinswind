@@ -35,11 +35,10 @@ void Game::render() {
     window->draw(levels[currentLevel].levelMap);
 
     for (auto &character: levels[currentLevel].characters) {
-        this->window->draw(character.currentSprite);
+        this->window->draw(character->currentSprite);
     }
 
     for (auto &button: levels[currentLevel].buttons) {
-        //button.sprite.setColor(sf::Color::Yellow);
         button.setTexture();
         this->window->draw(button.sprite);
     }
@@ -61,8 +60,8 @@ void Game::update() {
     this->input(dt);
     this->updateSFMLEvents();
     if (levels[currentLevel].type != Level::Types::MENU) player.update(dt);
-    for (Character &character: levels[currentLevel].characters)
-        character.update(dt);
+    for (auto &character: levels[currentLevel].characters)
+        character->update(dt);
 }
 
 void Game::updateSFMLEvents() {
@@ -85,7 +84,7 @@ void Game::loadLevel(int number) {
     player.camera.setCenter(player.currentSprite.getPosition());
     player.setCurrentState(Character::States::IDLE);
     for (auto &character: levels[currentLevel].characters)
-        character.level = &levels[currentLevel];
+        character->level = &levels[currentLevel];
 }
 
 void Game::initPlayer() {

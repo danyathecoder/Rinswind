@@ -36,9 +36,10 @@ protected:
                            sf::Vector2u secondSize, sf::Vector2f secondLUP, sf::Vector2f secondPadding);
 
 public:
+    sf::Vector2f padding;
+    virtual ~Character();
     void getDamage(int damage);
     void setxDirection(xDirections newDirection);
-    sf::Vector2f padding;
 };
 
 #endif //GAME_CHARACTER_H

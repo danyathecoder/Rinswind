@@ -2,6 +2,7 @@
 // Created by sevendart on 25.11.20.
 //
 
+#include <memory>
 #include "TileMap.h"
 
 #ifndef GAME_LEVEL_H
@@ -15,7 +16,7 @@ public:
     enum class Types {LEVEL, MENU};
     Types type;
     TileMap levelMap;
-    std::vector<Character> characters;
+    std::vector<std::shared_ptr<Character>> characters;
     std::vector<Button> buttons;
     Level();
     void loadLevel();

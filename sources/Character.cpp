@@ -49,13 +49,13 @@ bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f next
     nextLUP.x -= ((float)selfSize.x / 2);
     nextLUP.y -= ((float)selfSize.y / 2);
     for (auto &character: level->characters) {
-        sf::Vector2u charSize = character.currentSprite.getTexture()->getSize() /*+ sf::Vector2u(12, 12)*/;
-        sf::Vector2f charLUP = character.currentSprite.getPosition();
+        sf::Vector2u charSize = character->currentSprite.getTexture()->getSize() /*+ sf::Vector2u(12, 12)*/;
+        sf::Vector2f charLUP = character->currentSprite.getPosition();
         charLUP.x -= ((float)charSize.x / 2);
         charLUP.y -= ((float)charSize.y / 2);
-        if (isContains(nextLUP, selfSize, this->padding, charSize, charLUP, character.padding)) {
-            character.getCollision(this);
-            this->getCollision(&character);
+        if (isContains(nextLUP, selfSize, this->padding, charSize, charLUP, character->padding)) {
+            character->getCollision(this);
+            this->getCollision(character.get());
             return true;
         }
     }
@@ -120,6 +120,8 @@ void Character::getDamage(int damage) {
 void Character::update(float elapsedTime) {
     updateSprite(elapsedTime);
 }
+
+Character::~Character() = default;
 
 
 

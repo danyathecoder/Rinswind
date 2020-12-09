@@ -50,22 +50,12 @@ Level::Level() {
          game->initPlayer();
          game->setCurrentLevel(1);
      };
-
      menu.buttons[1].action = [](Game *game){
 
      };
-
      menu.buttons[2].action = [](Game *game) {
          delete game;
          exit(0);
      };
-
-     menu.buttons[0].actionPlay = [](int &currentLevel){
-         currentLevel = 1;
-     };
-     /*menu.buttons[2].actionQuit = [](sf::RenderWindow* window){
-                 delete window;
-                 exit(0);
-     };*/
      return menu;
  }

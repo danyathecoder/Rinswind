@@ -15,7 +15,6 @@ public:
     sf::Texture texture;
     std::string filename;
     sf::Sprite sprite;
-
     std::function<void(Game*)> action;
 
     static Button createButton(float x, float y, const std::string &filename);
