@@ -4,8 +4,7 @@
 
 #include "../include/Level.h"
 #include "../include/Character.h"
-#include "../include/Goblin.h"
-
+#include "../include/Game.h"
 
 void Level::loadLevel() {
     levelMap.load("../resources/" + levelName + ".png", tileSize, "../resources/" + levelName + ".txt", width, height);
@@ -25,24 +24,34 @@ Level Level::zeroLevel() {
     level.startPosition.x = 160.f;
     level.startPosition.y = 160.f;
     level.levelMap.setSolidTiles({28,14,36,2});
-    level.characters.push_back(Goblin(80.f, 80.f));
+    level.characters.push_back(Character::Goblin(80.f, 80.f));
     return level;
 }
 
-// <<<<<<< sevendart
 Level::Level() {
-
-// =======
-// //level "menu"
-// Level Level::mainMenu(){
-//     Level level;
-//     level.levelName = "menu";
-//     level.height = 15;
-//     level.width = 10;
-//     level.tileSize.x = 200;
-//     level.tileSize.y = 200;
-//     level.startPosition.x = 800.f;
-//     level.startPosition.y = 600.f;
-//     return level;
-// >>>>>>> danyathecoder
 }
+
+ Level Level::mainMenu() {
+     Level menu;
+     menu.levelName = "menu";
+     menu.height = 15;
+     menu.width = 10;
+     menu.tileSize.x = 200;
+     menu.tileSize.y = 200;
+     menu.startPosition.y = 600.f;
+     menu.startPosition.x = 800.f;
+     menu.buttons.push_back(Button::createButton(670,390,"play"));
+     menu.buttons.push_back(Button::createButton(600,540,"options2"));
+     menu.buttons.push_back(Button::createButton(670,690,"quit"));
+     for(Button& button : menu.buttons){
+         button.sprite.setColor(sf::Color::Yellow);
+     }
+     menu.buttons[0].actionPlay = [](int &currentLevel){
+         currentLevel = 1;
+     };
+     menu.buttons[2].actionQuit = [](sf::RenderWindow* window){
+                 delete window;
+                 exit(0);
+     };
+     return menu;
+ }

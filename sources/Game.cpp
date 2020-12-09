@@ -16,9 +16,10 @@ void Game::initWindow() {
 Game::Game() {
     currentLevel = 0;
     this->initWindow();
-    this->initPlayer();
+    if(currentLevel > 0) this->initPlayer();
+    levels.push_back(Level::mainMenu());
     levels.push_back(Level::zeroLevel());
-    this->loadLevel(0);
+    this->loadLevel(currentLevel);
 }
 
 Game::~Game() {
@@ -32,9 +33,14 @@ void Game::render() {
 
     window->draw(levels[currentLevel].levelMap);
 
-
     for (auto &character: levels[currentLevel].characters) {
         this->window->draw(character.currentSprite);
+    }
+
+    for (auto &button: levels[currentLevel].buttons) {
+        button.sprite.setColor(sf::Color::Yellow);
+        button.setTexture();
+        this->window->draw(button.sprite);
     }
 
     window->draw(player.currentSprite);
@@ -44,9 +50,8 @@ void Game::render() {
 
 void Game::run() {
         while (this->window->isOpen()) {
-            this->update();
             this->render();
-            sf::Mouse mouse;
+            this->update();
         }
 }
 
@@ -54,9 +59,11 @@ void Game::update() {
     float dt = dtClock.restart().asSeconds();
     this->input(dt);
     this->updateSFMLEvents();
-    player.update(dt);
-    for (auto &character: levels[currentLevel].characters)
-        character.update(dt);
+    if(currentLevel > 0){
+        player.updateSprite(dt);
+        for (Character &character: levels[currentLevel].characters)
+            character.updateSprite(dt);
+    }
 }
 
 void Game::updateSFMLEvents() {
@@ -67,32 +74,8 @@ void Game::updateSFMLEvents() {
 }
 
 void Game::input(float dt) {
-    bool isInMove = false;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        player.moveCharacter(-1 * dt, 0);
-        player.setCurrentState(Character::States::WALK);
-        player.setxDirection(Character::xDirections::LEFT);
-        isInMove = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        player.moveCharacter(1 * dt, 0);
-        player.setCurrentState(Character::States::WALK);
-        player.setxDirection(Character::xDirections::RIGHT);
-        isInMove = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        player.moveCharacter(0, -1 * dt);
-        player.setCurrentState(Character::States::WALK);
-        isInMove = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        player.moveCharacter(0, 1 * dt);
-        player.setCurrentState(Character::States::WALK);
-        isInMove = true;
-    }
-    if (!isInMove) {
-        player.setCurrentState(Character::States::IDLE);
-    }
+    keyboardLocker(dt, currentLevel);
+    mouseLocker(currentLevel);
 }
 
 void Game::loadLevel(int number) {
@@ -113,4 +96,51 @@ void Game::initPlayer() {
     window->setView(player.camera);
 }
 
+void Game::keyboardLocker(float dt, int currentLevel){
+    if(currentLevel > 0) {
+        bool isInMove = false;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            player.moveCharacter(-1 * dt, 0);
+            player.setCurrentState(Character::States::WALK);
+            player.setxDirection(Character::xDirections::LEFT);
+            isInMove = true;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            player.moveCharacter(1 * dt, 0);
+            player.setCurrentState(Character::States::WALK);
+            player.setxDirection(Character::xDirections::RIGHT);
+            isInMove = true;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            player.moveCharacter(0, -1 * dt);
+            player.setCurrentState(Character::States::WALK);
+            isInMove = true;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            player.moveCharacter(0, 1 * dt);
+            player.setCurrentState(Character::States::WALK);
+            isInMove = true;
+        }
+        if (!isInMove) {
+            player.setCurrentState(Character::States::IDLE);
+        }
+    }
+}
+
+void Game::mouseLocker(int currentLevel){
+    if(currentLevel == 0){
+        if(sf::IntRect(300, 180, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                levels[currentLevel].buttons[0].actionPlay(currentLevel);
+                initPlayer();
+                this->loadLevel(currentLevel);
+            }
+        }
+        if(sf::IntRect(300, 364, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                levels[currentLevel].buttons[2].actionQuit(window);
+            }
+        }
+    }
+}
 

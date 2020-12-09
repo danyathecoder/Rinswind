@@ -4,6 +4,7 @@
 
 #include "TileMap.h"
 #include "Anim.h"
+#include "Button.h"
 
 #ifndef GAME_LEVEL_H
 #define GAME_LEVEL_H
@@ -20,6 +21,7 @@ public:
     Level();
     sf::Vector2f getStartPosition() const;
     std::vector<Character> characters;
+    std::vector<Button> buttons;
     TileMap levelMap;
     void loadLevel();
     static Level zeroLevel();

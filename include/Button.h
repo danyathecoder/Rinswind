@@ -9,18 +9,17 @@
 #include <string>
 
 class Button {
-private:
-    sf::Texture texture;
-    float x;
-    float y;
-    std::string filename;
 public:
+    sf::Texture texture;
+    std::string filename;
     sf::Sprite sprite;
 
-    Button(float x, float y, const std::string &filename);
+    std::function<void(int &currentLevel)> actionPlay;
+    std::function<void(sf::RenderWindow*)> actionQuit;
 
-    float getX() const;
-    float getY() const;
+    static Button createButton(float x, float y, const std::string &filename);
+
+    void setTexture();
 };
 
 
