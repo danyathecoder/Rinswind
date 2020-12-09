@@ -1,7 +1,6 @@
 #include "../include/Game.h"
 #include <string>
 #include "../include/Anim.h"
-#include_next "../include/Button.h"
 //static functions
 
 //init functions
@@ -9,6 +8,7 @@
 void Game::initWindow() {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "");
     window->setFramerateLimit(60);
+    camera = new sf::View();
 }
 
 //constructors/destructors
@@ -16,7 +16,6 @@ void Game::initWindow() {
 Game::Game() {
     currentLevel = 0;
     this->initWindow();
-    if(currentLevel > 0) this->initPlayer();
     levels.push_back(Level::mainMenu());
     levels.push_back(Level::zeroLevel());
     this->loadLevel(currentLevel);
@@ -28,8 +27,8 @@ Game::~Game() {
 
 //functions
 void Game::render() {
-    window->setView(player.camera);
     this->window->clear();
+    this->window->setView(*camera);
 
     window->draw(levels[currentLevel].levelMap);
 
@@ -50,8 +49,8 @@ void Game::render() {
 
 void Game::run() {
         while (this->window->isOpen()) {
-            this->render();
             this->update();
+            this->render();
         }
 }
 
@@ -59,11 +58,9 @@ void Game::update() {
     float dt = dtClock.restart().asSeconds();
     this->input(dt);
     this->updateSFMLEvents();
-    if(currentLevel > 0){
-        player.updateSprite(dt);
-        for (Character &character: levels[currentLevel].characters)
-            character.updateSprite(dt);
-    }
+    if (levels[currentLevel].type != Level::Types::MENU) player.update(dt);
+    for (Character &character: levels[currentLevel].characters)
+        character.update(dt);
 }
 
 void Game::updateSFMLEvents() {
@@ -74,8 +71,8 @@ void Game::updateSFMLEvents() {
 }
 
 void Game::input(float dt) {
-    keyboardLocker(dt, currentLevel);
-    mouseLocker(currentLevel);
+    if (levels[currentLevel].type != Level::Types::MENU) keyboard(dt);
+    if (levels[currentLevel].type != Level::Types::LEVEL) mouse();
 }
 
 void Game::loadLevel(int number) {
@@ -93,11 +90,10 @@ void Game::initPlayer() {
     player.setClass(Player::Classes::KNIGHT);
     player.camera.setSize(400, 300);
     player.setCurrentState(Character::States::IDLE);
-    window->setView(player.camera);
+    camera = &player.camera;
 }
 
-void Game::keyboardLocker(float dt, int currentLevel){
-    if(currentLevel > 0) {
+void Game::keyboard(float dt) {
         bool isInMove = false;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             player.moveCharacter(-1 * dt, 0);
@@ -124,11 +120,9 @@ void Game::keyboardLocker(float dt, int currentLevel){
         if (!isInMove) {
             player.setCurrentState(Character::States::IDLE);
         }
-    }
 }
 
-void Game::mouseLocker(int currentLevel){
-    if(currentLevel == 0){
+void Game::mouse() {
         if(sf::IntRect(300, 180, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                 levels[currentLevel].buttons[0].actionPlay(currentLevel);
@@ -141,6 +135,5 @@ void Game::mouseLocker(int currentLevel){
                 levels[currentLevel].buttons[2].actionQuit(window);
             }
         }
-    }
 }
 

@@ -27,23 +27,16 @@ private:
     sf::RenderWindow* window;
     sf:: Event event;
     sf::Clock dtClock;
-// <<<<<<< sevendart
+    sf::View *camera;
     Player player;
     int currentLevel;
     std::vector<Level> levels;
-// =======
-//     std::vector<Character*> characters;
-//     std::vector<Button> buttons;
-//     Player player;
-//     Level currentLevel;
-//     int levelNumber;
-//     std::vector<Level> levelList;
-// >>>>>>> danyathecoder
+
     //init functions
     void initWindow();
     void initPlayer();
-    void keyboardLocker(float dt, int currentLevel);
-    void mouseLocker(int currentLevel);
+    void keyboard(float dt);
+    void mouse();
 
 
 public:

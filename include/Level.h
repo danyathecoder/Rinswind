@@ -18,7 +18,9 @@ private:
     std::string levelName;
     sf::Vector2f startPosition;
 public:
+    enum class Types {LEVEL, MENU};
     Level();
+    Types type;
     sf::Vector2f getStartPosition() const;
     std::vector<Character> characters;
     std::vector<Button> buttons;

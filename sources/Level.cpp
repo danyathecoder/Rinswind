@@ -24,7 +24,7 @@ Level Level::zeroLevel() {
     level.startPosition.x = 160.f;
     level.startPosition.y = 160.f;
     level.levelMap.setSolidTiles({28,14,36,2});
-    level.characters.push_back(Character::Goblin(80.f, 80.f));
+    level.type = Types::LEVEL;
     return level;
 }
 
@@ -33,16 +33,15 @@ Level::Level() {
 
  Level Level::mainMenu() {
      Level menu;
+     menu.type = Types::MENU;
      menu.levelName = "menu";
      menu.height = 15;
      menu.width = 10;
      menu.tileSize.x = 200;
      menu.tileSize.y = 200;
-     menu.startPosition.y = 600.f;
-     menu.startPosition.x = 800.f;
-     menu.buttons.push_back(Button::createButton(670,390,"play"));
-     menu.buttons.push_back(Button::createButton(600,540,"options2"));
-     menu.buttons.push_back(Button::createButton(670,690,"quit"));
+     menu.buttons.push_back(Button::createButton(50,100,"play"));
+     menu.buttons.push_back(Button::createButton(50,200,"options2"));
+     menu.buttons.push_back(Button::createButton(50,300,"quit"));
      for(Button& button : menu.buttons){
          button.sprite.setColor(sf::Color::Yellow);
      }
