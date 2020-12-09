@@ -49,3 +49,7 @@ void Player::setMage() {
 
 }
 
+void Player::update(float elapsedTime) {
+    updateSprite(elapsedTime);
+}
+

@@ -12,6 +12,7 @@ private:
     void setKnight();
     void setMage();
 public:
+    void update(float elapsedTime) override;
     void moveCharacter(float x, float y) override;
     sf::View camera;
     enum class Classes{

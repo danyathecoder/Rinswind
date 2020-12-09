@@ -3,3 +3,7 @@
 //
 
 #include "../include/Enemy.h"
+
+void Enemy::update(float elapsedTime) {
+    Character::update(elapsedTime);
+}

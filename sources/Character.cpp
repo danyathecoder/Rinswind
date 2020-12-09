@@ -121,5 +121,9 @@ void Character::getDamage(int damage) {
     }
 }
 
+void Character::update(float elapsedTime) {
+    updateSprite(elapsedTime);
+}
+
 
 

@@ -11,6 +11,7 @@ class Goblin : public Enemy {
 public:
     Goblin(float xPosition, float yPosition);
     ~Goblin();
+    virtual void update(float elapsedTime) override;
 };
 
 #endif //GAME_GOBLIN_H

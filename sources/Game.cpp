@@ -54,9 +54,9 @@ void Game::update() {
     float dt = dtClock.restart().asSeconds();
     this->input(dt);
     this->updateSFMLEvents();
-    player.updateSprite(dt);
-    for (Character &character: levels[currentLevel].characters)
-        character.updateSprite(dt);
+    player.update(dt);
+    for (auto &character: levels[currentLevel].characters)
+        character.update(dt);
 }
 
 void Game::updateSFMLEvents() {

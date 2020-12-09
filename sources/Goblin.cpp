@@ -31,3 +31,9 @@ Goblin::Goblin(float xPosition, float yPosition) {
 Goblin::~Goblin() {
 
 }
+
+void Goblin::update(float elapsedTime) {
+    printf("FUCK");
+    updateSprite(elapsedTime);
+    moveCharacter(elapsedTime, 0);
+}

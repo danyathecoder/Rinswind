@@ -7,9 +7,10 @@
 
 #include <SFML/Graphics.hpp>
 #include "Anim.h"
-#include <map>
 #include "Level.h"
+#include <map>
 #include <vector>
+#include <functional>
 
 class Character{
 public:
@@ -25,18 +26,18 @@ public:
     enum class xDirections{LEFT, RIGHT};
     Level *level;
     std::map<States, Anim> animations;
+    virtual void update(float elapsedTime);
 protected:
     static bool isSolid(int tile, const std::vector<int> &solidTiles);
     static bool isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Vector2f firstPadding,
                            sf::Vector2u secondSize, sf::Vector2f secondLUP, sf::Vector2f secondPadding);
     bool checkCollisions(sf::Vector2f previousPosition, sf::Vector2f nextPosition);
-    /*virtual */void getCollision(Character* collisionObject);
+    virtual void getCollision(Character* collisionObject);
     States currentState;
     xDirections xDirection = xDirections::RIGHT;
 public:
     void getDamage(int damage);
     void setxDirection(xDirections newDirection);
-    static Character Goblin(float xPosition, float yPosition);
     sf::Vector2f padding;
 };
 
