@@ -11,22 +11,22 @@ class Character;
 class Button;
 
 class Level {
+public:
+    enum class Types {LEVEL, MENU};
+    Types type;
+    TileMap levelMap;
+    std::vector<Character> characters;
+    std::vector<Button> buttons;
+    Level();
+    void loadLevel();
+    sf::Vector2f getStartPosition() const;
+    static Level zeroLevel();
+    static Level mainMenu();
 private:
     sf::Vector2u tileSize;
     int width, height;
     std::string levelName;
     sf::Vector2f startPosition;
-public:
-    enum class Types {LEVEL, MENU};
-    Level();
-    Types type;
-    sf::Vector2f getStartPosition() const;
-    std::vector<Character> characters;
-    std::vector<Button> buttons;
-    TileMap levelMap;
-    void loadLevel();
-    static Level zeroLevel();
-    static Level mainMenu();
 };
 
 

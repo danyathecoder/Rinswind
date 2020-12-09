@@ -16,8 +16,6 @@ public:
     std::string filename;
     sf::Sprite sprite;
 
-    std::function<void(int &currentLevel)> actionPlay;
-    std::function<void(sf::RenderWindow*)> actionQuit;
     std::function<void(Game*)> action;
 
     static Button createButton(float x, float y, const std::string &filename);
