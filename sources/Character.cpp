@@ -13,10 +13,6 @@ void Character::updateSprite(float elapsedTime) {
 }
 
 
-Character::States Character::getCurrentState() const {
-    return currentState;
-}
-
 void Character::moveCharacter(float x, float y) {
     sf::Vector2f nextPosition(currentSprite.getPosition().x + x * speed, currentSprite.getPosition().y + y * speed);
     if (!checkCollisions(currentSprite.getPosition(), nextPosition))

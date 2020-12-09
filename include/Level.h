@@ -3,13 +3,12 @@
 //
 
 #include "TileMap.h"
-#include "Anim.h"
-#include "Button.h"
 
 #ifndef GAME_LEVEL_H
 #define GAME_LEVEL_H
 
 class Character;
+class Button;
 
 class Level {
 private:

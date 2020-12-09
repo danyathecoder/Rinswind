@@ -1,6 +1,7 @@
 #include "../include/Game.h"
 #include <string>
 #include "../include/Anim.h"
+#include "../include/Button.h"
 //static functions
 
 //init functions
@@ -9,20 +10,21 @@ void Game::initWindow() {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "");
     window->setFramerateLimit(60);
     camera = new sf::View();
+    camera->reset(sf::FloatRect (0, 0, 800, 600));
 }
 
 //constructors/destructors
 
 Game::Game() {
     currentLevel = 0;
-    this->initWindow();
+    initWindow();
     levels.push_back(Level::mainMenu());
     levels.push_back(Level::zeroLevel());
     this->loadLevel(currentLevel);
 }
 
 Game::~Game() {
-    delete this -> window;
+    delete this->window;
 }
 
 //functions
@@ -37,12 +39,12 @@ void Game::render() {
     }
 
     for (auto &button: levels[currentLevel].buttons) {
-        button.sprite.setColor(sf::Color::Yellow);
+        //button.sprite.setColor(sf::Color::Yellow);
         button.setTexture();
         this->window->draw(button.sprite);
     }
 
-    window->draw(player.currentSprite);
+    if (levels[currentLevel].type != Level::Types::MENU) window->draw(player.currentSprite);
 
     this->window->display();
 }
@@ -94,46 +96,53 @@ void Game::initPlayer() {
 }
 
 void Game::keyboard(float dt) {
-        bool isInMove = false;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            player.moveCharacter(-1 * dt, 0);
-            player.setCurrentState(Character::States::WALK);
-            player.setxDirection(Character::xDirections::LEFT);
-            isInMove = true;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            player.moveCharacter(1 * dt, 0);
-            player.setCurrentState(Character::States::WALK);
-            player.setxDirection(Character::xDirections::RIGHT);
-            isInMove = true;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            player.moveCharacter(0, -1 * dt);
-            player.setCurrentState(Character::States::WALK);
-            isInMove = true;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            player.moveCharacter(0, 1 * dt);
-            player.setCurrentState(Character::States::WALK);
-            isInMove = true;
-        }
-        if (!isInMove) {
-            player.setCurrentState(Character::States::IDLE);
-        }
+    bool isInMove = false;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        player.moveCharacter(-1 * dt, 0);
+        player.setCurrentState(Character::States::WALK);
+        player.setxDirection(Character::xDirections::LEFT);
+        isInMove = true;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        player.moveCharacter(1 * dt, 0);
+        player.setCurrentState(Character::States::WALK);
+        player.setxDirection(Character::xDirections::RIGHT);
+        isInMove = true;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        player.moveCharacter(0, -1 * dt);
+        player.setCurrentState(Character::States::WALK);
+        isInMove = true;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        player.moveCharacter(0, 1 * dt);
+        player.setCurrentState(Character::States::WALK);
+        isInMove = true;
+    }
+    if (!isInMove) {
+        player.setCurrentState(Character::States::IDLE);
+    }
 }
 
 void Game::mouse() {
-        if(sf::IntRect(300, 180, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                levels[currentLevel].buttons[0].actionPlay(currentLevel);
-                initPlayer();
-                this->loadLevel(currentLevel);
-            }
+    for (auto &button: levels[currentLevel].buttons) {
+        sf::IntRect buttonRect = button.sprite.getTextureRect();
+        sf::Vector2f position = button.sprite.getPosition();
+        buttonRect.left = position.x;
+        buttonRect.top = position.y;
+        if (buttonRect.contains(sf::Mouse::getPosition(window[0]))) {
+            button.sprite.setColor(sf::Color::Red);
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                button.action(this);
         }
-        if(sf::IntRect(300, 364, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                levels[currentLevel].buttons[2].actionQuit(window);
-            }
+        else {
+            button.sprite.setColor(sf::Color::Yellow);
         }
+    }
+}
+
+void Game::setCurrentLevel(int level) {
+    currentLevel = level;
+    loadLevel(level);
 }
 

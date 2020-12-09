@@ -10,7 +10,6 @@
 #include <cstdlib>
 #include <vector>
 
-#include "Character.h"
 #include "Player.h"
 #include "Level.h"
 
@@ -18,7 +17,6 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
-#include "Button.h"
 
 
 class Game {
@@ -34,28 +32,19 @@ private:
 
     //init functions
     void initWindow();
-    void initPlayer();
+    void update();
+    void render();
+    void updateSFMLEvents();
+    void input(float dt);
     void keyboard(float dt);
     void mouse();
-
-
 public:
     Game();
     virtual ~Game();
-
-
-    int getLevelNumber() const;
-
-    void setLevelNumber(int levelNumber);
-
-    //functions
+    void initPlayer();
+    void setCurrentLevel(int level);
     void loadLevel(int number);
-    void updateSFMLEvents();
-    void update();
-    void render();
     void run();
-    void input(float dt);
-
 };
 
 

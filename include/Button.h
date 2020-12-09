@@ -7,6 +7,8 @@
 
 #include "SFML/Graphics.hpp"
 #include <string>
+#include "Game.h"
+#include "Level.h"
 
 class Button {
 public:
@@ -16,6 +18,7 @@ public:
 
     std::function<void(int &currentLevel)> actionPlay;
     std::function<void(sf::RenderWindow*)> actionQuit;
+    std::function<void(Game*)> action;
 
     static Button createButton(float x, float y, const std::string &filename);
 
