@@ -121,6 +121,15 @@ void Character::update(float elapsedTime) {
     updateSprite(elapsedTime);
 }
 
+void Character::updateWeapon(float elapsedTime) {
+    weapon->updateSprite(elapsedTime);
+}
+
+void Character::setPosition(sf::Vector2f position) {
+    currentSprite.setPosition(position);
+    weapon->sprite.setPosition(position + sf::Vector2f(0, 10));
+}
+
 Character::~Character() = default;
 
 

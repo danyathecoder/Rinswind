@@ -2,9 +2,9 @@
 // Created by sevendart on 26.11.20.
 //
 
-#include "../include/Anim.h"
+#include "../include/Animation.h"
 
-bool Anim::load(std::string animFile, int count) {
+bool Animation::load(std::string animFile, int count) {
     frames = new sf::Texture[count];
     this->size = count;
     for (int i = 0; i < count; i++) {
@@ -15,7 +15,7 @@ bool Anim::load(std::string animFile, int count) {
 }
 
 
-sf::Texture &Anim::nextFrame(float elapsedTime) {
+sf::Texture &Animation::nextFrame(float elapsedTime) {
     currentFrame += (elapsedTime * (float)speed);
     if (currentFrame > (float)size) {
         currentFrame -= (float) size;
@@ -24,7 +24,7 @@ sf::Texture &Anim::nextFrame(float elapsedTime) {
     return frames[(int)currentFrame % size];
 }
 
-void Anim::reset() {
+void Animation::reset() {
     currentFrame = 0;
     isFinished = false;
 }

@@ -21,8 +21,6 @@
 
 class Game {
 private:
-    //variables
-    sf::RenderWindow* window;
     sf:: Event event;
     sf::Clock dtClock;
     sf::View *camera;
@@ -30,7 +28,6 @@ private:
     int currentLevel;
     std::vector<Level> levels;
 
-    //init functions
     void initWindow();
     void update();
     void render();
@@ -39,6 +36,7 @@ private:
     void keyboard(float dt);
     void mouse();
 public:
+    inline static sf::RenderWindow* window;
     Game();
     virtual ~Game();
     void initPlayer();

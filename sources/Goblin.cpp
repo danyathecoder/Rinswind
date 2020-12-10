@@ -7,7 +7,7 @@
 Goblin::Goblin(float xPosition, float yPosition) {
     health = 5;
     speed = 100;
-    Anim idle, walk, hit;
+    Animation idle, walk, hit;
     hit.speed = 5;
     std::string pathToIdle = "../resources/Animations/Goblin/goblin_idle_anim_f";
     std::string pathToWalk = "../resources/Animations/Goblin/goblin_run_anim_f";

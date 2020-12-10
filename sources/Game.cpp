@@ -1,19 +1,16 @@
 #include "../include/Game.h"
 #include <string>
-#include "../include/Anim.h"
+#include "../include/Animation.h"
 #include "../include/Button.h"
-//static functions
 
-//init functions
 
 void Game::initWindow() {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "");
-    window->setFramerateLimit(60);
+    Game::window->setFramerateLimit(60);
     camera = new sf::View();
     camera->reset(sf::FloatRect (0, 0, 800, 600));
 }
 
-//constructors/destructors
 
 Game::Game() {
     currentLevel = 0;
@@ -23,33 +20,33 @@ Game::Game() {
     this->loadLevel(currentLevel);
 }
 
-Game::~Game() {
-    delete this->window;
-}
-
 //functions
 void Game::render() {
-    this->window->clear();
-    this->window->setView(*camera);
+    Game::window->clear();
+    Game::window->setView(*camera);
 
     window->draw(levels[currentLevel].levelMap);
 
     for (auto &character: levels[currentLevel].characters) {
-        this->window->draw(character->currentSprite);
+        Game::window->draw(character->currentSprite);
+        Game::window->draw(character->weapon->sprite);
     }
 
     for (auto &button: levels[currentLevel].buttons) {
         button.setTexture();
-        this->window->draw(button.sprite);
+        Game::window->draw(button.sprite);
     }
 
-    if (levels[currentLevel].type != Level::Types::MENU) window->draw(player.currentSprite);
+    if (levels[currentLevel].type != Level::Types::MENU) {
+        Game::window->draw(player.currentSprite);
+        Game::window->draw(player.weapon->sprite);
+    }
 
-    this->window->display();
+    Game::window->display();
 }
 
 void Game::run() {
-        while (this->window->isOpen()) {
+        while (Game::window->isOpen()) {
             this->update();
             this->render();
         }
@@ -65,9 +62,9 @@ void Game::update() {
 }
 
 void Game::updateSFMLEvents() {
-    while (this->window->pollEvent(this->event)) {
+    while (Game::window->pollEvent(this->event)) {
         if (this->event.type == sf::Event::Closed)
-            this->window->close();
+            Game::window->close();
     }
 }
 
@@ -79,12 +76,14 @@ void Game::input(float dt) {
 void Game::loadLevel(int number) {
     currentLevel = number;
     levels[currentLevel].loadLevel();
-    player.level = &levels[currentLevel];
-    player.currentSprite.setPosition(levels[currentLevel].getStartPosition());
-    player.camera.setCenter(player.currentSprite.getPosition());
-    player.setCurrentState(Character::States::IDLE);
-    for (auto &character: levels[currentLevel].characters)
-        character->level = &levels[currentLevel];
+    if (levels[currentLevel].type != Level::Types::MENU) {
+        player.level = &levels[currentLevel];
+        player.setPosition(levels[currentLevel].getStartPosition());
+        player.camera.setCenter(player.currentSprite.getPosition());
+        player.setCurrentState(Character::States::IDLE);
+        for (auto &character: levels[currentLevel].characters)
+            character->level = &levels[currentLevel];
+    }
 }
 
 void Game::initPlayer() {
@@ -144,4 +143,6 @@ void Game::setCurrentLevel(int level) {
     currentLevel = level;
     loadLevel(level);
 }
+
+Game::~Game() = default;
 

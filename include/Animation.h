@@ -8,7 +8,7 @@
 #define GAME_ANIMATION_H
 
 
-class Anim {
+class Animation {
 public:
     bool load(std::string animFile, int count);
     void reset();
