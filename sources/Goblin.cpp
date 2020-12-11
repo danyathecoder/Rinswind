@@ -26,6 +26,7 @@ Goblin::Goblin(float xPosition, float yPosition) {
     currentSprite.setPosition(xPosition, yPosition);
     padding = sf::Vector2f(0.49f, 0.49f);
     name = "goblin";
+    weapon = new Weapon();
 }
 
 Goblin::~Goblin() {

@@ -5,6 +5,7 @@
 #include "../include/Level.h"
 #include "../include/Character.h"
 #include "../include/Button.h"
+#include "../include/Goblin.h"
 
 void Level::loadLevel() {
     levelMap.load("../resources/" + levelName + ".png", tileSize, "../resources/" + levelName + ".txt", width, height);
@@ -25,6 +26,7 @@ Level Level::zeroLevel() {
     level.startPosition.y = 160.f;
     level.levelMap.setSolidTiles({28,14,36,2});
     level.type = Types::LEVEL;
+    level.characters.push_back(std::shared_ptr<Character>(new Goblin(80, 80)));
     return level;
 }
 
