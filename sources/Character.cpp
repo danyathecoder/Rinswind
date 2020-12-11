@@ -18,7 +18,7 @@ void Character::moveCharacter(float x, float y) {
     if (!checkCollisions(currentSprite.getPosition(), nextPosition))
         this->currentSprite.move(x * speed, y * speed);
     else {
-        currentSprite.move(-1 * x * speed / 2, -1 * y * speed / 2);
+        currentSprite.move(-1 * x * speed, -1 * y * speed);
     }
 }
 

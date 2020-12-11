@@ -37,10 +37,6 @@ void Game::render() {
         Game::window->draw(button.sprite);
     }
 
-    if (levels[currentLevel].type != Level::Types::MENU) {
-        Game::window->draw(player.currentSprite);
-        Game::window->draw(player.weapon->sprite);
-    }
 
     Game::window->display();
 }
@@ -56,7 +52,7 @@ void Game::update() {
     float dt = dtClock.restart().asSeconds();
     this->input(dt);
     this->updateSFMLEvents();
-    if (levels[currentLevel].type != Level::Types::MENU) player.update(dt);
+    //if (levels[currentLevel].type != Level::Types::MENU) player.update(dt);
     for (auto &character: levels[currentLevel].characters)
         character->update(dt);
 }
@@ -83,6 +79,7 @@ void Game::loadLevel(int number) {
         player.setCurrentState(Character::States::IDLE);
         for (auto &character: levels[currentLevel].characters)
             character->level = &levels[currentLevel];
+        levels[currentLevel].characters.push_back(std::shared_ptr<Character>(&player));
     }
 }
 

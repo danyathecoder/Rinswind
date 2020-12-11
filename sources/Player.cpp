@@ -43,6 +43,8 @@ void Player::setKnight() {
     this->animations[States::IDLE] = idle;
     this->animations[States::WALK] = walk;
     this->animations[States::HIT] = hit;
+    setCurrentState(States::IDLE);
+    updateSprite(1.f / 60);
     currentSprite.setOrigin(8, 14);
     padding = sf::Vector2f(0.f, 0.f);
     weapon = new Sword();
