@@ -6,7 +6,7 @@
 
 Goblin::Goblin(float xPosition, float yPosition) {
     health = 5;
-    speed = 100;
+    speed = 10;
     Animation idle, walk, hit;
     hit.speed = 5;
     std::string pathToIdle = "../resources/Animations/Goblin/goblin_idle_anim_f";
@@ -26,6 +26,7 @@ Goblin::Goblin(float xPosition, float yPosition) {
     currentSprite.setPosition(xPosition, yPosition);
     padding = sf::Vector2f(0.49f, 0.49f);
     name = "goblin";
+    weapon = new Weapon();
 }
 
 Goblin::~Goblin() {
@@ -33,7 +34,6 @@ Goblin::~Goblin() {
 }
 
 void Goblin::update(float elapsedTime) {
-    printf("FUCK");
     updateSprite(elapsedTime);
     moveCharacter(elapsedTime, 0);
 }
