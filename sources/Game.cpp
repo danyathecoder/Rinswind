@@ -1,57 +1,54 @@
 #include "../include/Game.h"
 #include <string>
-#include "../include/Anim.h"
-#include_next "../include/Button.h"
-//static functions
+#include "../include/Animation.h"
+#include "../include/Button.h"
 
-//init functions
 
 void Game::initWindow() {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "");
-    window->setFramerateLimit(60);
+    Game::window->setFramerateLimit(60);
+    camera = new sf::View();
+    camera->reset(sf::FloatRect (0, 0, 800, 600));
 }
 
-//constructors/destructors
 
 Game::Game() {
     currentLevel = 0;
-    this->initWindow();
-    if(currentLevel > 0) this->initPlayer();
+    initWindow();
     levels.push_back(Level::mainMenu());
     levels.push_back(Level::zeroLevel());
     this->loadLevel(currentLevel);
 }
 
-Game::~Game() {
-    delete this -> window;
-}
-
 //functions
 void Game::render() {
-    window->setView(player.camera);
-    this->window->clear();
+    Game::window->clear();
+    Game::window->setView(*camera);
 
     window->draw(levels[currentLevel].levelMap);
 
     for (auto &character: levels[currentLevel].characters) {
-        this->window->draw(character.currentSprite);
+        Game::window->draw(character->currentSprite);
+        Game::window->draw(character->weapon->sprite);
     }
 
     for (auto &button: levels[currentLevel].buttons) {
-        button.sprite.setColor(sf::Color::Yellow);
         button.setTexture();
-        this->window->draw(button.sprite);
+        Game::window->draw(button.sprite);
     }
 
-    window->draw(player.currentSprite);
+    if (levels[currentLevel].type != Level::Types::MENU) {
+        Game::window->draw(player.currentSprite);
+        Game::window->draw(player.weapon->sprite);
+    }
 
-    this->window->display();
+    Game::window->display();
 }
 
 void Game::run() {
-        while (this->window->isOpen()) {
-            this->render();
+        while (Game::window->isOpen()) {
             this->update();
+            this->render();
         }
 }
 
@@ -59,88 +56,93 @@ void Game::update() {
     float dt = dtClock.restart().asSeconds();
     this->input(dt);
     this->updateSFMLEvents();
-    if(currentLevel > 0){
-        player.updateSprite(dt);
-        for (Character &character: levels[currentLevel].characters)
-            character.updateSprite(dt);
-    }
+    if (levels[currentLevel].type != Level::Types::MENU) player.update(dt);
+    for (auto &character: levels[currentLevel].characters)
+        character->update(dt);
 }
 
 void Game::updateSFMLEvents() {
-    while (this->window->pollEvent(this->event)) {
+    while (Game::window->pollEvent(this->event)) {
         if (this->event.type == sf::Event::Closed)
-            this->window->close();
+            Game::window->close();
     }
 }
 
 void Game::input(float dt) {
-    keyboardLocker(dt, currentLevel);
-    mouseLocker(currentLevel);
+    if (levels[currentLevel].type != Level::Types::MENU) keyboard(dt);
+    if (levels[currentLevel].type != Level::Types::LEVEL) mouse();
 }
 
 void Game::loadLevel(int number) {
     currentLevel = number;
     levels[currentLevel].loadLevel();
-    player.level = &levels[currentLevel];
-    player.currentSprite.setPosition(levels[currentLevel].getStartPosition());
-    player.camera.setCenter(player.currentSprite.getPosition());
-    player.setCurrentState(Character::States::IDLE);
-    for (auto &character: levels[currentLevel].characters)
-        character.level = &levels[currentLevel];
+    if (levels[currentLevel].type != Level::Types::MENU) {
+        player.level = &levels[currentLevel];
+        player.setPosition(levels[currentLevel].getStartPosition());
+        player.camera.setCenter(player.currentSprite.getPosition());
+        player.setCurrentState(Character::States::IDLE);
+        for (auto &character: levels[currentLevel].characters)
+            character->level = &levels[currentLevel];
+    }
 }
 
 void Game::initPlayer() {
     player.setClass(Player::Classes::KNIGHT);
     player.camera.setSize(400, 300);
     player.setCurrentState(Character::States::IDLE);
-    window->setView(player.camera);
+    camera = &player.camera;
 }
 
-void Game::keyboardLocker(float dt, int currentLevel){
-    if(currentLevel > 0) {
-        bool isInMove = false;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            player.moveCharacter(-1 * dt, 0);
-            player.setCurrentState(Character::States::WALK);
-            player.setxDirection(Character::xDirections::LEFT);
-            isInMove = true;
+void Game::keyboard(float dt) {
+    bool isInMove = false;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        player.moveCharacter(-1 * dt, 0);
+        player.setCurrentState(Character::States::WALK);
+        player.setxDirection(Character::xDirections::LEFT);
+        isInMove = true;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        player.moveCharacter(1 * dt, 0);
+        player.setCurrentState(Character::States::WALK);
+        player.setxDirection(Character::xDirections::RIGHT);
+        isInMove = true;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        player.moveCharacter(0, -1 * dt);
+        player.setCurrentState(Character::States::WALK);
+        isInMove = true;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        player.moveCharacter(0, 1 * dt);
+        player.setCurrentState(Character::States::WALK);
+        isInMove = true;
+    }
+    if (!isInMove) {
+        player.setCurrentState(Character::States::IDLE);
+    }
+}
+
+void Game::mouse() {
+    for (auto &button: levels[currentLevel].buttons) {
+        sf::IntRect buttonRect = button.sprite.getTextureRect();
+        sf::Vector2f position = button.sprite.getPosition();
+        buttonRect.left = position.x;
+        buttonRect.top = position.y;
+        if (buttonRect.contains(sf::Mouse::getPosition(window[0]))) {
+            button.sprite.setColor(sf::Color::Red);
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                button.action(this);
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            player.moveCharacter(1 * dt, 0);
-            player.setCurrentState(Character::States::WALK);
-            player.setxDirection(Character::xDirections::RIGHT);
-            isInMove = true;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            player.moveCharacter(0, -1 * dt);
-            player.setCurrentState(Character::States::WALK);
-            isInMove = true;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            player.moveCharacter(0, 1 * dt);
-            player.setCurrentState(Character::States::WALK);
-            isInMove = true;
-        }
-        if (!isInMove) {
-            player.setCurrentState(Character::States::IDLE);
+        else {
+            button.sprite.setColor(sf::Color::Yellow);
         }
     }
 }
 
-void Game::mouseLocker(int currentLevel){
-    if(currentLevel == 0){
-        if(sf::IntRect(300, 180, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                levels[currentLevel].buttons[0].actionPlay(currentLevel);
-                initPlayer();
-                this->loadLevel(currentLevel);
-            }
-        }
-        if(sf::IntRect(300, 364, 200, 100).contains(sf::Mouse().getPosition(window[0]))) {
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                levels[currentLevel].buttons[2].actionQuit(window);
-            }
-        }
-    }
+void Game::setCurrentLevel(int level) {
+    currentLevel = level;
+    loadLevel(level);
 }
+
+Game::~Game() = default;
 

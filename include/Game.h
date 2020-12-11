@@ -10,7 +10,6 @@
 #include <cstdlib>
 #include <vector>
 
-#include "Character.h"
 #include "Player.h"
 #include "Level.h"
 
@@ -18,51 +17,32 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
-#include "Button.h"
 
 
 class Game {
 private:
-    //variables
-    sf::RenderWindow* window;
     sf:: Event event;
     sf::Clock dtClock;
-// <<<<<<< sevendart
+    sf::View *camera;
     Player player;
     int currentLevel;
     std::vector<Level> levels;
-// =======
-//     std::vector<Character*> characters;
-//     std::vector<Button> buttons;
-//     Player player;
-//     Level currentLevel;
-//     int levelNumber;
-//     std::vector<Level> levelList;
-// >>>>>>> danyathecoder
-    //init functions
+
     void initWindow();
-    void initPlayer();
-    void keyboardLocker(float dt, int currentLevel);
-    void mouseLocker(int currentLevel);
-
-
-public:
-    Game();
-    virtual ~Game();
-
-
-    int getLevelNumber() const;
-
-    void setLevelNumber(int levelNumber);
-
-    //functions
-    void loadLevel(int number);
-    void updateSFMLEvents();
     void update();
     void render();
-    void run();
+    void updateSFMLEvents();
     void input(float dt);
-
+    void keyboard(float dt);
+    void mouse();
+public:
+    inline static sf::RenderWindow* window;
+    Game();
+    virtual ~Game();
+    void initPlayer();
+    void setCurrentLevel(int level);
+    void loadLevel(int number);
+    void run();
 };
 
 

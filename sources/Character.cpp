@@ -13,10 +13,6 @@ void Character::updateSprite(float elapsedTime) {
 }
 
 
-Character::States Character::getCurrentState() const {
-    return currentState;
-}
-
 void Character::moveCharacter(float x, float y) {
     sf::Vector2f nextPosition(currentSprite.getPosition().x + x * speed, currentSprite.getPosition().y + y * speed);
     if (!checkCollisions(currentSprite.getPosition(), nextPosition))
@@ -53,13 +49,13 @@ bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f next
     nextLUP.x -= ((float)selfSize.x / 2);
     nextLUP.y -= ((float)selfSize.y / 2);
     for (auto &character: level->characters) {
-        sf::Vector2u charSize = character.currentSprite.getTexture()->getSize() /*+ sf::Vector2u(12, 12)*/;
-        sf::Vector2f charLUP = character.currentSprite.getPosition();
+        sf::Vector2u charSize = character->currentSprite.getTexture()->getSize() /*+ sf::Vector2u(12, 12)*/;
+        sf::Vector2f charLUP = character->currentSprite.getPosition();
         charLUP.x -= ((float)charSize.x / 2);
         charLUP.y -= ((float)charSize.y / 2);
-        if (isContains(nextLUP, selfSize, this->padding, charSize, charLUP, character.padding)) {
-            character.getCollision(this);
-            this->getCollision(&character);
+        if (isContains(nextLUP, selfSize, this->padding, charSize, charLUP, character->padding)) {
+            character->getCollision(this);
+            this->getCollision(character.get());
             return true;
         }
     }
@@ -68,7 +64,6 @@ bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f next
 
 bool Character::isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Vector2f firstPadding,
                       sf::Vector2u secondSize, sf::Vector2f secondLUP, sf::Vector2f secondPadding) {
-    //printf("%f %f\n", secondPadding.x * (float)secondSize.x, secondPadding.y * (float)secondSize.y);
     sf::Vector2f firstCoord[2][2], secondCoord[2][2];
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
@@ -78,25 +73,16 @@ bool Character::isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Ve
             secondCoord[i][j] += sf::Vector2f(secondPadding.x * secondSize.x * pow(-1, i), secondPadding.y * secondSize.y * pow(-1, j));
         }
     }
-    //std::swap(secondCoord[0][1], secondCoord[1][0]);
-    //std::swap(firstCoord[0][1], firstCoord[1][0]);
-    /*printf("\n");
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 2; j++)
-            printf("%f %f ", secondCoord[i][j].x, secondCoord[i][j].y);
-        printf("\n");
-    }*/
     for (int i = 0; i < 2; i++)
         for (int j = 0; j < 2; j++)
             if (firstCoord[i][j].x > secondCoord[0][0].x && firstCoord[i][j].x < secondCoord[1][1].x) {
-                //printf("%f < %f < %f\n", secondCoord[0][0].x, firstCoord[i][j].x, secondCoord[1][0].x);
                 if (firstCoord[i][j].y > secondCoord[0][0].y && firstCoord[i][j].y < secondCoord[1][1].y)
                     return true;
             }
 
     for (int i = 0; i < 2; i++)
         for (int j = 0; j < 2; j++)
-            if (secondCoord[i][j].x > firstCoord[0][0].x && secondCoord[i][j].x < firstCoord[1][0].x)
+            if (secondCoord[i][j].x > firstCoord[0][0].x && secondCoord[i][j].x < firstCoord[1][1].x)
                 if (secondCoord[i][j].y > firstCoord[0][0].y && secondCoord[i][j].y < firstCoord[1][1].y)
                     return true;
     return false;
@@ -105,6 +91,7 @@ bool Character::isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Ve
 void Character::getCollision(Character* collisionObject) {
     std::cout << "collision Object :" << collisionObject->name << "\n";
     collisionObject->getDamage(0);
+    //collisionObject->moveCharacter(0.01f, 0.01f);
 }
 
 bool Character::isSolid(int tile, const std::vector<int> &solidTiles) {
@@ -121,32 +108,6 @@ void Character::setxDirection(Character::xDirections newDirection) {
     }
 }
 
-Character Character::Goblin(float xPosition, float yPosition) {
-    Character goblin;
-    goblin.health = 100;
-    goblin.speed = 100;
-    Anim idle, walk, hit;
-    hit.speed = 5;
-    std::string pathToIdle = "../resources/Animations/Goblin/goblin_idle_anim_f";
-    std::string pathToWalk = "../resources/Animations/Goblin/goblin_run_anim_f";
-    std::string pathToHit = "../resources/Animations/Goblin/goblin_hit_anim_f";
-    idle.load(pathToIdle, 4);
-    walk.load(pathToWalk, 4);
-    hit.load(pathToHit, 1);
-    goblin.animations[States::HIT] = hit;
-    goblin.animations[States::IDLE] = idle;
-    goblin.animations[States::WALK] = walk;
-    goblin.setCurrentState(States::IDLE);
-    goblin.updateSprite(1.f / 60);
-    float xOrigin = (float)goblin.currentSprite.getTexture()->getSize().x / 2;
-    float yOrigin = (float)goblin.currentSprite.getTexture()->getSize().y / 2;
-    goblin.currentSprite.setOrigin(sf::Vector2f(xOrigin, yOrigin));
-    goblin.currentSprite.setPosition(xPosition, yPosition);
-    goblin.padding = sf::Vector2f(0.49f, 0.49f);
-    //goblin.currentSprite.scale(2.f, 2.f);
-    goblin.name = "goblin";
-    return goblin;
-}
 
 void Character::getDamage(int damage) {
     if (health - damage < 0) delete(this);
@@ -155,6 +116,21 @@ void Character::getDamage(int damage) {
         setCurrentState(States::HIT);
     }
 }
+
+void Character::update(float elapsedTime) {
+    updateSprite(elapsedTime);
+}
+
+void Character::updateWeapon(float elapsedTime) {
+    weapon->updateSprite(elapsedTime);
+}
+
+void Character::setPosition(sf::Vector2f position) {
+    currentSprite.setPosition(position);
+    weapon->sprite.setPosition(position + sf::Vector2f(0, 10));
+}
+
+Character::~Character() = default;
 
 
 

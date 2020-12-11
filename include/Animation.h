@@ -8,9 +8,8 @@
 #define GAME_ANIMATION_H
 
 
-class Anim {
+class Animation {
 public:
-    std::string name;
     bool load(std::string animFile, int count);
     void reset();
     sf::Texture &nextFrame(float elapsedTime);
