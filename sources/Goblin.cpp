@@ -3,6 +3,8 @@
 //
 
 #include "../include/Goblin.h"
+#include "../include/Player.h"
+#include "../include/Game.h"
 
 Goblin::Goblin(float xPosition, float yPosition) {
     health = 5;
@@ -34,6 +36,13 @@ Goblin::~Goblin() {
 }
 
 void Goblin::update(float elapsedTime) {
+    follow(isAggressive(Game::player.currentSprite.getPosition().x, Game::player.currentSprite.getPosition().y, 100.0));
     updateSprite(elapsedTime);
-    moveCharacter(elapsedTime, 0);
+}
+
+void Goblin::follow(bool angry) {
+    if (angry) {
+        moveCharacter((Game::player.currentSprite.getPosition().x - this->currentSprite.getPosition().x)/400,
+                      (Game::player.currentSprite.getPosition().y - this->currentSprite.getPosition().y)/400);
+    }
 }

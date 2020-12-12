@@ -133,4 +133,3 @@ void Character::setPosition(sf::Vector2f position) {
 Character::~Character() = default;
 
 
-

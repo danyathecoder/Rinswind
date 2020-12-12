@@ -14,6 +14,9 @@ class Enemy : public Character {
     //virtual void hit();
     //virtual void getCollision(Character *collisionObject) override;
     virtual void update(float elapsedTime) override;
+    virtual void follow(bool angry);
+public:
+    bool isAggressive(float playerSpriteX, float playerSpriteY, float range);
 };
 
 #endif //GAME_ENEMY_H

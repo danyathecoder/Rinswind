@@ -16,6 +16,7 @@ public:
     std::string filename;
     sf::Sprite sprite;
     std::function<void(Game*)> action;
+    sf::Sound sound;
 
     static Button createButton(float x, float y, const std::string &filename);
 

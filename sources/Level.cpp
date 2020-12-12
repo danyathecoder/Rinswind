@@ -26,8 +26,38 @@ Level Level::zeroLevel() {
     level.startPosition.y = 160.f;
     level.levelMap.setSolidTiles({28,14,36,2});
     level.type = Types::LEVEL;
-    level.characters.push_back(std::shared_ptr<Character>(new Goblin(80, 80)));
+    for(int i = 50; i < 200; i += 10){
+        level.characters.push_back(std::shared_ptr<Character>(new Goblin(i, 40)));
+    }
+
+    static sf::SoundBuffer buffer;
+    buffer.loadFromFile("../resources/levelSound.wav");
+    level.soundtrack.setBuffer(buffer);
+    level.soundtrack.setLoop(true);
+
     return level;
+}
+
+Level Level::options() {
+    Level options;
+    options.type = Types::MENU;
+    options.levelName = "menu";
+    options.height = 15;
+    options.width = 10;
+    options.tileSize.x = 200;
+    options.tileSize.y = 200;
+
+    options.buttons.push_back(Button::createButton(50,450,"back"));
+
+
+
+//    options.buttons.push_back(Button::createButton(300,100,"volume"));
+
+    options.buttons[0].action = [](Game *game){
+        game->setCurrentLevel(0);
+    };
+
+    return options;
 }
 
 Level::Level() {
@@ -45,15 +75,16 @@ Level::Level() {
      menu.buttons.push_back(Button::createButton(50,100,"play"));
      menu.buttons.push_back(Button::createButton(50,250,"options2"));
      menu.buttons.push_back(Button::createButton(50,400,"quit"));
+
      for(Button& button : menu.buttons){
          button.sprite.setColor(sf::Color::Yellow);
      }
      menu.buttons[0].action = [](Game *game) {
          game->initPlayer();
-         game->setCurrentLevel(1);
+         game->setCurrentLevel(2);
      };
      menu.buttons[1].action = [](Game *game){
-
+         game->setCurrentLevel(1);
      };
      menu.buttons[2].action = [](Game *game) {
          delete game;

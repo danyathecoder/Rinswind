@@ -24,7 +24,6 @@ private:
     sf:: Event event;
     sf::Clock dtClock;
     sf::View *camera;
-    Player player;
     int currentLevel;
     std::vector<Level> levels;
 
@@ -37,6 +36,8 @@ private:
     void mouse();
 public:
     inline static sf::RenderWindow* window;
+    inline static Player player;
+    float volume;
     Game();
     virtual ~Game();
     void initPlayer();

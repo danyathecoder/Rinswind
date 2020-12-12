@@ -3,6 +3,7 @@
 //
 
 #include <memory>
+#include <SFML/Audio/Sound.hpp>
 #include "TileMap.h"
 
 #ifndef GAME_LEVEL_H
@@ -18,11 +19,13 @@ public:
     TileMap levelMap;
     std::vector<std::shared_ptr<Character>> characters;
     std::vector<Button> buttons;
+    sf::Sound soundtrack;
     Level();
     void loadLevel();
     sf::Vector2f getStartPosition() const;
     static Level zeroLevel();
     static Level mainMenu();
+    static Level options();
 private:
     sf::Vector2u tileSize;
     int width, height;

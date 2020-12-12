@@ -14,8 +14,10 @@ void Game::initWindow() {
 
 Game::Game() {
     currentLevel = 0;
+    volume = 100;
     initWindow();
     levels.push_back(Level::mainMenu());
+    levels.push_back(Level::options());
     levels.push_back(Level::zeroLevel());
     this->loadLevel(currentLevel);
 }
@@ -55,6 +57,7 @@ void Game::update() {
     //if (levels[currentLevel].type != Level::Types::MENU) player.update(dt);
     for (auto &character: levels[currentLevel].characters)
         character->update(dt);
+
 }
 
 void Game::updateSFMLEvents() {
@@ -81,6 +84,7 @@ void Game::loadLevel(int number) {
             character->level = &levels[currentLevel];
         levels[currentLevel].characters.push_back(std::shared_ptr<Character>(&player));
     }
+    levels[currentLevel].soundtrack.play();
 }
 
 void Game::initPlayer() {
@@ -127,6 +131,7 @@ void Game::mouse() {
         buttonRect.top = position.y;
         if (buttonRect.contains(sf::Mouse::getPosition(window[0]))) {
             button.sprite.setColor(sf::Color::Red);
+            button.sound.play();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 button.action(this);
         }

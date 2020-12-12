@@ -10,6 +10,10 @@ Button Button::createButton(float x, float y, const std::string &filename) {
     play.sprite.setPosition(x, y);
     play.filename = filename;
     play.texture.loadFromFile("../resources/" + filename + ".png");
+
+    static sf::SoundBuffer buffer;
+    buffer.loadFromFile("../resources/buttonSound.wav");
+    play.sound.setBuffer(buffer);
     return play;
 }
 
