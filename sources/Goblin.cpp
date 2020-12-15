@@ -30,7 +30,7 @@ Goblin::Goblin(float xPosition, float yPosition) {
     name = "goblin";
     weapon = new Weapon();
     weapon->ownership = Weapon::Own::ENEMY;
-    immuneDuration = 3;
+    immuneDuration = 0.1f;
     immuneTime = 0;
     isImmune = false;
 }
