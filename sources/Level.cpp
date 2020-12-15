@@ -26,11 +26,11 @@ Level Level::zeroLevel() {
     level.startPosition.y = 160.f;
     level.levelMap.setSolidTiles({28,14,36,2});
     level.type = Types::LEVEL;
-    /*for(int i = 50; i < 200; i += 10){
+    for(int i = 50; i < 200; i += 10){
         level.characters.push_back(std::shared_ptr<Character>(new Goblin(i, 40)));
-    }*/
+    }
 
-    level.characters.push_back(std::shared_ptr<Character>(new Goblin(100, 40)));
+    //level.characters.push_back(std::shared_ptr<Character>(new Goblin(100, 40)));
     static sf::SoundBuffer buffer;
     buffer.loadFromFile("../resources/levelSound.wav");
     level.soundtrack.setBuffer(buffer);

@@ -48,6 +48,8 @@ public:
     virtual ~Character();
     virtual void getDamage(int damage);
     void setxDirection(xDirections newDirection);
+
+    void removeFromList();
 };
 
 #endif //GAME_CHARACTER_H

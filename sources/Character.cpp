@@ -113,8 +113,12 @@ void Character::getDamage(int damage) {
     if (isImmune) return;
     else {
         health -= damage;
+        if (health < 0) {
+            removeFromList();
+        }
         isImmune = true;
         currentSprite.setColor(sf::Color(255, 0, 0, 255));
+        setCurrentState(States::HIT);
     }
 }
 
@@ -142,6 +146,16 @@ void Character::checkImpacts(float elapsedTime) {
     }
 }
 
-Character::~Character() = default;
+void Character::removeFromList() {
+    for (auto it = level->characters.begin(); it != level->characters.end(); it++)
+        if (it->get() == this) {
+            level->characters.erase(it);
+            return;
+        }
+}
+
+Character::~Character() {
+
+}
 
 
