@@ -37,6 +37,7 @@ private:
 public:
     inline static sf::RenderWindow* window;
     inline static Player player;
+    inline static Game *currentGame;
     float volume;
     Game();
     virtual ~Game();
@@ -44,6 +45,8 @@ public:
     void setCurrentLevel(int level);
     void loadLevel(int number);
     void run();
+
+    Level *getCurrentLevel();
 };
 
 

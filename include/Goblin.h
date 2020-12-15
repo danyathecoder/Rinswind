@@ -16,7 +16,7 @@ public:
     ~Goblin();
     virtual void update(float elapsedTime) override;
     virtual void follow(bool angry) override;
-
+    virtual void getCollision(Character* collisionObject) override;
 };
 
 #endif //GAME_GOBLIN_H

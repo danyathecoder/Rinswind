@@ -3,8 +3,8 @@
 //
 
 #include "../include/Goblin.h"
-#include "../include/Player.h"
 #include "../include/Game.h"
+#include <cmath>
 
 Goblin::Goblin(float xPosition, float yPosition) {
     health = 5;
@@ -29,20 +29,42 @@ Goblin::Goblin(float xPosition, float yPosition) {
     padding = sf::Vector2f(0.49f, 0.49f);
     name = "goblin";
     weapon = new Weapon();
+    weapon->ownership = Weapon::Own::ENEMY;
+    immuneDuration = 3;
+    immuneTime = 0;
+    isImmune = false;
 }
 
-Goblin::~Goblin() {
-
-}
+Goblin::~Goblin() = default;
 
 void Goblin::update(float elapsedTime) {
+    checkImpacts(elapsedTime);
     follow(isAggressive(Game::player.currentSprite.getPosition().x, Game::player.currentSprite.getPosition().y, 100.0));
     updateSprite(elapsedTime);
 }
 
 void Goblin::follow(bool angry) {
     if (angry) {
+        /*sf::Vector2f coords = (currentSprite.getPosition() - Game::player.currentSprite.getPosition());
+        float angle = (float)(atan(coords.y / coords.x) * 180 / M_PI);
+        if (coords.x < 0)
+            angle += 180;
+        if (angle < 0) angle += 360;
+        sf::Vector2f revDir(cos(angle) * 0.1f,sin(angle) * 0.1f);*/
         moveCharacter((Game::player.currentSprite.getPosition().x - this->currentSprite.getPosition().x)/400,
                       (Game::player.currentSprite.getPosition().y - this->currentSprite.getPosition().y)/400);
+        //moveCharacter(revDir.x * -1, revDir.y * -1);
+    }
+}
+
+void Goblin::getCollision(Character *collisionObject) {
+    sf::Vector2f coords = (currentSprite.getPosition() - collisionObject->currentSprite.getPosition());
+    float angle = (float)(atan(coords.y / coords.x) * 180 / M_PI);
+    if (coords.x < 0)
+        angle += 180;
+    if (angle < 0) angle += 360;
+    //sf::Vector2f revDir(cos(angle) * 0.1f,sin(angle) * 0.1f);
+    if (collisionObject->name == "Knight") {
+        collisionObject->getDamage(1);
     }
 }

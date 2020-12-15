@@ -110,10 +110,11 @@ void Character::setxDirection(Character::xDirections newDirection) {
 
 
 void Character::getDamage(int damage) {
-    if (health - damage < 0) delete(this);
+    if (isImmune) return;
     else {
         health -= damage;
-        setCurrentState(States::HIT);
+        isImmune = true;
+        currentSprite.setColor(sf::Color(255, 0, 0, 255));
     }
 }
 
@@ -128,6 +129,17 @@ void Character::updateWeapon(float elapsedTime) {
 void Character::setPosition(sf::Vector2f position) {
     currentSprite.setPosition(position);
     weapon->sprite.setPosition(position + sf::Vector2f(0, 10));
+}
+
+void Character::checkImpacts(float elapsedTime) {
+    if (isImmune) {
+        immuneTime += elapsedTime;
+        if (immuneTime > immuneDuration) {
+            immuneTime = 0;
+            isImmune = false;
+            currentSprite.setColor(sf::Color(255, 255, 255, 255));
+        }
+    }
 }
 
 Character::~Character() = default;

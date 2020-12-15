@@ -12,6 +12,9 @@ class Player: public Character {
 private:
     void setKnight();
     void setMage();
+    void input(float elapsedTime);
+    void keyboard(float elapsedTime);
+    void mouse(float elapsedTime);
     virtual void updateWeapon(float elapsedTime) override;
 public:
     sf::View camera;
@@ -19,6 +22,8 @@ public:
     void update(float elapsedTime) override;
     void moveCharacter(float x, float y) override;
     void setClass(Classes newClass);
+    virtual void getCollision(Character* collisionObject) override;
+    void setWeaponRotation();
 };
 
 #endif //GAME_PLAYER_H
