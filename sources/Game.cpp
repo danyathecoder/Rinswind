@@ -13,6 +13,7 @@ void Game::initWindow() {
 
 
 Game::Game() {
+    currentGame = this;
     currentLevel = 0;
     volume = 100;
     initWindow();
@@ -95,32 +96,7 @@ void Game::initPlayer() {
 }
 
 void Game::keyboard(float dt) {
-    bool isInMove = false;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        player.moveCharacter(-1 * dt, 0);
-        player.setCurrentState(Character::States::WALK);
-        player.setxDirection(Character::xDirections::LEFT);
-        isInMove = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        player.moveCharacter(1 * dt, 0);
-        player.setCurrentState(Character::States::WALK);
-        player.setxDirection(Character::xDirections::RIGHT);
-        isInMove = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        player.moveCharacter(0, -1 * dt);
-        player.setCurrentState(Character::States::WALK);
-        isInMove = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        player.moveCharacter(0, 1 * dt);
-        player.setCurrentState(Character::States::WALK);
-        isInMove = true;
-    }
-    if (!isInMove) {
-        player.setCurrentState(Character::States::IDLE);
-    }
+
 }
 
 void Game::mouse() {
@@ -144,6 +120,10 @@ void Game::mouse() {
 void Game::setCurrentLevel(int level) {
     currentLevel = level;
     loadLevel(level);
+}
+
+Level* Game::getCurrentLevel() {
+    return &levels[currentLevel];
 }
 
 Game::~Game() = default;

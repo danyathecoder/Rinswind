@@ -9,10 +9,9 @@
 
 class Sword: public Weapon {
     virtual void attack() override;
-    virtual void rotate() override;
-
 public:
     Sword();
+    virtual void update(float elapsedTime) override;
 };
 
 

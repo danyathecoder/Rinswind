@@ -12,19 +12,26 @@
 class Weapon {
 public:
     enum class States {ATTACK, WAIT};
-    void setCurrentState(States newState);
-    void updateSprite(float elapsedTime);
+    enum class Own{PLAYER, ENEMY};
+    Own ownership;
     sf::Sprite sprite;
     int damage;
     int speed;
     float angle;
+    bool attacking;
+    virtual void update(float elapsedTime);
     virtual void attack();
     virtual ~Weapon();
+    void setCurrentState(States newState);
+    void updateSprite(float elapsedTime);
 protected:
-    float radius;
     virtual void rotate();
     std::map<States, Animation> animations;
     States currentState;
+    sf::Vector2f padding;
+    bool checkCollisions();
+    bool isContains(sf::Vector2f firstLUP, sf::Vector2u firstSize, sf::Vector2f firstPadding, sf::Vector2u secondSize,
+                    sf::Vector2f secondLUP, sf::Vector2f secondPadding);
 };
 
 

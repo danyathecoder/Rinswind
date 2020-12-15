@@ -31,6 +31,10 @@ public:
 protected:
     States currentState;
     xDirections xDirection = xDirections::RIGHT;
+    float immuneTime; // time pasted since last damage
+    float immuneDuration; // immunity duration, unchangeable
+    bool isImmune;
+    virtual void checkImpacts(float elapsedTime);
     void updateSprite(float elapsedTime);
     virtual void updateWeapon(float elapsedTime);
     static bool isSolid(int tile, const std::vector<int> &solidTiles);
@@ -42,7 +46,7 @@ protected:
 public:
     sf::Vector2f padding;
     virtual ~Character();
-    void getDamage(int damage);
+    virtual void getDamage(int damage);
     void setxDirection(xDirections newDirection);
 };
 
