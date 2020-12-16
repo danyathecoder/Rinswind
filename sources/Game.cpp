@@ -31,7 +31,7 @@ void Game::render() {
     window->draw(levels[currentLevel].levelMap);
 
     for (auto &character: levels[currentLevel].characters) {
-        Game::window->draw(character->currentSprite);
+        Game::window->draw(character->sprite);
         Game::window->draw(character->weapon->sprite);
     }
 
@@ -81,7 +81,7 @@ void Game::loadLevel(int number) {
     if (levels[currentLevel].type != Level::Types::MENU) {
         player.level = &levels[currentLevel];
         player.setPosition(levels[currentLevel].getStartPosition());
-        player.camera.setCenter(player.currentSprite.getPosition());
+        player.camera.setCenter(player.sprite.getPosition());
         player.setCurrentState(Character::States::IDLE);
         for (auto &character: levels[currentLevel].characters)
             character->level = &levels[currentLevel];

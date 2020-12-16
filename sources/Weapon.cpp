@@ -39,8 +39,8 @@ bool Weapon::checkCollisions() {
     for (auto &character: Game::currentGame->getCurrentLevel()->characters) {
         if (ownership == Own::PLAYER && character->name == "Knight") continue;
         if (ownership != Own::PLAYER && character->name != "Knight") continue;
-        sf::Vector2u charSize = character->currentSprite.getTexture()->getSize();
-        sf::Vector2f charLUP = character->currentSprite.getPosition();
+        sf::Vector2u charSize = character->sprite.getTexture()->getSize();
+        sf::Vector2f charLUP = character->sprite.getPosition();
         charLUP.x -= ((float)charSize.x / 2);
         charLUP.y -= ((float)charSize.y / 2);
         if (isContains(LUP, selfSize, this->padding, charSize, charLUP, sf::Vector2f(-0.5f,-0.5f))) {

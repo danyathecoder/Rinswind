@@ -7,14 +7,14 @@
 #include <cmath>
 
 void Player::moveCharacter(float x, float y) {
-    sf::Vector2f nextPosition(currentSprite.getPosition().x + x * speed, currentSprite.getPosition().y + y * speed);
-    if (!checkCollisions(currentSprite.getPosition(), nextPosition)) {
-        this->currentSprite.move(x * speed, y * speed);
+    sf::Vector2f nextPosition(sprite.getPosition().x + x * speed, sprite.getPosition().y + y * speed);
+    if (!checkCollisions(sprite.getPosition(), nextPosition)) {
+        this->sprite.move(x * speed, y * speed);
         camera.move(x * speed, y * speed);
         weapon->sprite.move(x * speed, y * speed);
     }
     else {
-        this->currentSprite.move(x * speed * -1 / 2, y * speed * -1 / 2);
+        this->sprite.move(x * speed * -1 / 2, y * speed * -1 / 2);
         camera.move(x * speed * -1 / 2, y * speed * -1 / 2);
         weapon->sprite.move(x * speed * -1 / 2, y * speed * -1 / 2);
     }
@@ -49,7 +49,7 @@ void Player::setKnight() {
     this->animations[States::HIT] = hit;
     setCurrentState(States::IDLE);
     updateSprite(1.f / 60);
-    currentSprite.setOrigin(8, 14);
+    sprite.setOrigin(8, 14);
     padding = sf::Vector2f(0.f, 0.f);
     weapon = new Sword();
     weapon->ownership = Weapon::Own::PLAYER;
@@ -88,7 +88,7 @@ void Player::keyboard(float elapsedTime) {
         isInMove = true;
     }
     if (!isInMove) {
-        if (currentState != States::HIT) setCurrentState(Character::States::IDLE);
+        if (state != States::HIT) setCurrentState(Character::States::IDLE);
     }
 }
 

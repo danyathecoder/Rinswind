@@ -8,29 +8,29 @@
 #include <iostream>
 
 void Character::updateSprite(float elapsedTime) {
-    currentSprite.setTexture(animations[currentState].nextFrame(elapsedTime));
-    if (currentState == States::HIT && animations[currentState].isFinished) currentState = States::IDLE;
+    sprite.setTexture(animations[state].nextFrame(elapsedTime));
+    if (state == States::HIT && animations[state].isFinished) state = States::IDLE;
 }
 
 
 void Character::moveCharacter(float x, float y) {
-    sf::Vector2f nextPosition(currentSprite.getPosition().x + x * speed, currentSprite.getPosition().y + y * speed);
-    if (!checkCollisions(currentSprite.getPosition(), nextPosition))
-        this->currentSprite.move(x * speed, y * speed);
+    sf::Vector2f nextPosition(sprite.getPosition().x + x * speed, sprite.getPosition().y + y * speed);
+    if (!checkCollisions(sprite.getPosition(), nextPosition))
+        this->sprite.move(x * speed, y * speed);
     else {
-        currentSprite.move(-1 * x * speed, -1 * y * speed);
+        sprite.move(-1 * x * speed, -1 * y * speed);
     }
 }
 
 void Character::setCurrentState(Character::States newState) {
-    if (newState != currentState) animations[newState].reset();
-    currentState = newState;
+    if (newState != state) animations[newState].reset();
+    state = newState;
 }
 
 bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f nextPosition) {
     int xDir = (nextPosition.x > previousPosition.x) ? 1 : (nextPosition.x < previousPosition.x)? -1 : 0;
     int yDir = (nextPosition.y > previousPosition.y) ? 1 : (nextPosition.y < previousPosition.y)? -1 : 0;
-    sf::Vector2u selfSize = currentSprite.getTexture()->getSize();
+    sf::Vector2u selfSize = sprite.getTexture()->getSize();
     sf::Vector2f nextLUP = nextPosition;
     nextPosition.x += (xDir * (float)selfSize.x / 2);
     if (yDir > 0) nextPosition.y += (yDir * (float)selfSize.y / 2);
@@ -49,8 +49,8 @@ bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f next
     nextLUP.x -= ((float)selfSize.x / 2);
     nextLUP.y -= ((float)selfSize.y / 2);
     for (auto &character: level->characters) {
-        sf::Vector2u charSize = character->currentSprite.getTexture()->getSize() /*+ sf::Vector2u(12, 12)*/;
-        sf::Vector2f charLUP = character->currentSprite.getPosition();
+        sf::Vector2u charSize = character->sprite.getTexture()->getSize() /*+ sf::Vector2u(12, 12)*/;
+        sf::Vector2f charLUP = character->sprite.getPosition();
         charLUP.x -= ((float)charSize.x / 2);
         charLUP.y -= ((float)charSize.y / 2);
         if (isContains(nextLUP, selfSize, this->padding, charSize, charLUP, character->padding)) {
@@ -104,7 +104,7 @@ bool Character::isSolid(int tile, const std::vector<int> &solidTiles) {
 void Character::setxDirection(Character::xDirections newDirection) {
     if (xDirection != newDirection) {
         xDirection = newDirection;
-        currentSprite.scale(-1.f, 1.f);
+        sprite.scale(-1.f, 1.f);
     }
 }
 
@@ -113,11 +113,11 @@ void Character::getDamage(int damage) {
     if (isImmune) return;
     else {
         health -= damage;
-        if (health < 0) {
+        if (health <= 0) {
             removeFromList();
         }
         isImmune = true;
-        currentSprite.setColor(sf::Color(255, 0, 0, 255));
+        sprite.setColor(sf::Color(255, 0, 0, 255));
         setCurrentState(States::HIT);
     }
 }
@@ -131,7 +131,7 @@ void Character::updateWeapon(float elapsedTime) {
 }
 
 void Character::setPosition(sf::Vector2f position) {
-    currentSprite.setPosition(position);
+    sprite.setPosition(position);
     weapon->sprite.setPosition(position + sf::Vector2f(0, 10));
 }
 
@@ -141,7 +141,7 @@ void Character::checkImpacts(float elapsedTime) {
         if (immuneTime > immuneDuration) {
             immuneTime = 0;
             isImmune = false;
-            currentSprite.setColor(sf::Color(255, 255, 255, 255));
+            sprite.setColor(sf::Color(255, 255, 255, 255));
         }
     }
 }

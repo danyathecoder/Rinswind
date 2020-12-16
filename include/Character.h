@@ -17,7 +17,7 @@ class Character{
 public:
     enum class States{IDLE, WALK, ATTACK, HIT};
     enum class xDirections{LEFT, RIGHT};
-    sf::Sprite currentSprite;
+    sf::Sprite sprite;
     Weapon *weapon;
     int health;
     float speed;
@@ -29,7 +29,7 @@ public:
     virtual void moveCharacter(float x, float y);
     virtual void update(float elapsedTime);
 protected:
-    States currentState;
+    States state;
     xDirections xDirection = xDirections::RIGHT;
     float immuneTime; // time pasted since last damage
     float immuneDuration; // immunity duration, unchangeable
