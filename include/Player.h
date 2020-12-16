@@ -7,6 +7,7 @@
 
 #include "Character.h"
 #include "Sword.h"
+#include "UserInterface.h"
 
 class Player: public Character {
 private:
@@ -15,15 +16,17 @@ private:
     void input(float elapsedTime);
     void keyboard(float elapsedTime);
     void mouse(float elapsedTime);
-    virtual void updateWeapon(float elapsedTime) override;
+    void updateWeapon(float elapsedTime) override;
 public:
     sf::View camera;
+    UserInterface UI;
     enum class Classes{KNIGHT, MAGE};
     void update(float elapsedTime) override;
     void moveCharacter(float x, float y) override;
     void setClass(Classes newClass);
-    virtual void getCollision(Character* collisionObject) override;
+    void getCollision(Character* collisionObject) override;
     void setWeaponRotation();
+    virtual void getDamage(int damage) override;
 };
 
 #endif //GAME_PLAYER_H

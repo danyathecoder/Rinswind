@@ -32,11 +32,12 @@ void Player::setClass(Classes newClass) {
 }
 
 void Player::setKnight() {
-    this->health = 100;
+    this->health = 3;
     this->speed = 100;
     this->name = "Knight";
     Animation idle, walk, hit;
     walk.speed = idle.speed = hit.speed = 5;
+    hit.speed = 1;
     std::string pathToIdle = "../resources/Animations/Knight/knight_m_idle_anim_f";
     std::string pathToWalk = "../resources/Animations/Knight/knight_m_run_anim_f";
     std::string pathToHit = "../resources/Animations/Knight/knight_m_hit_anim_f";
@@ -52,9 +53,10 @@ void Player::setKnight() {
     padding = sf::Vector2f(0.f, 0.f);
     weapon = new Sword();
     weapon->ownership = Weapon::Own::PLAYER;
-    immuneDuration = 3;
+    immuneDuration = 0.3f;
     immuneTime = 0;
     isImmune = false;
+    UI = UserInterface();
 }
 
 void Player::setMage() {
@@ -86,7 +88,7 @@ void Player::keyboard(float elapsedTime) {
         isInMove = true;
     }
     if (!isInMove) {
-        setCurrentState(Character::States::IDLE);
+        if (currentState != States::HIT) setCurrentState(Character::States::IDLE);
     }
 }
 
@@ -105,6 +107,7 @@ void Player::update(float elapsedTime) {
     checkImpacts(elapsedTime);
     updateWeapon(elapsedTime);
     updateSprite(elapsedTime);
+    UI.update();
 }
 
 void Player::setWeaponRotation() {
@@ -126,6 +129,11 @@ void Player::updateWeapon(float elapsedTime) {
 
 void Player::getCollision(Character *collisionObject) {
 
+}
+
+void Player::getDamage(int damage) {
+    Character::getDamage(damage);
+    UI.update();
 }
 
 

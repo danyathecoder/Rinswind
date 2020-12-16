@@ -40,6 +40,9 @@ void Game::render() {
         Game::window->draw(button.sprite);
     }
 
+    if (levels[currentLevel].type != Level::Types::MENU) {
+        Game::window->draw(player.UI);
+    }
 
     Game::window->display();
 }
@@ -55,7 +58,6 @@ void Game::update() {
     float dt = dtClock.restart().asSeconds();
     this->input(dt);
     this->updateSFMLEvents();
-    //if (levels[currentLevel].type != Level::Types::MENU) player.update(dt);
     for (auto &character: levels[currentLevel].characters)
         character->update(dt);
 

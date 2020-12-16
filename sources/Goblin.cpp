@@ -7,7 +7,7 @@
 #include <cmath>
 
 Goblin::Goblin(float xPosition, float yPosition) {
-    health = 5;
+    health = 2;
     speed = 10;
     Animation idle, walk, hit;
     hit.speed = 5;
