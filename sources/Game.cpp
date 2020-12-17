@@ -62,10 +62,10 @@ void Game::update() {
     this->updateSFMLEvents();
     for (auto &character: levels[currentLevel].characters)
         character->update(dt);
-    /*if (levels[currentLevel].characters.size() == 1) {
+    if (levels[currentLevel].characters.size() == 1) {
         camera = new sf::View(sf::FloatRect(0,0,800,600));
         setCurrentLevel(4);
-    }*/
+    }
 
 }
 
