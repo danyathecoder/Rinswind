@@ -18,6 +18,7 @@ private:
     void mouse(float elapsedTime);
     void updateWeapon(float elapsedTime) override;
 public:
+    int maxHealth = 3;
     sf::View camera;
     UserInterface UI;
     enum class Classes{KNIGHT, MAGE};
@@ -27,6 +28,7 @@ public:
     void getCollision(Character* collisionObject) override;
     void setWeaponRotation();
     virtual void getDamage(int damage) override;
+    virtual ~Player();
 };
 
 #endif //GAME_PLAYER_H

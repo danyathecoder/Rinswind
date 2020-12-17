@@ -26,11 +26,18 @@ public:
     static Level zeroLevel();
     static Level mainMenu();
     static Level options();
+    static Level deathScreen();
+    static Level winScreen();
+    static Level firstLevel();
+    void resetLevelCharacters();
 private:
     sf::Vector2u tileSize;
     int width, height;
     std::string levelName;
     sf::Vector2f startPosition;
+
+
+
 };
 
 

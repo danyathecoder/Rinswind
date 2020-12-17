@@ -23,8 +23,6 @@ class Game {
 private:
     sf:: Event event;
     sf::Clock dtClock;
-    sf::View *camera;
-    int currentLevel;
     std::vector<Level> levels;
 
     void initWindow();
@@ -35,8 +33,10 @@ private:
     void keyboard(float dt);
     void mouse();
 public:
+    sf::View *camera;
+    int currentLevel;
     inline static sf::RenderWindow* window;
-    inline static Player player;
+    inline static Player *player;
     inline static Game *currentGame;
     float volume;
     Game();
@@ -47,6 +47,10 @@ public:
     void run();
 
     Level *getCurrentLevel();
+
+    void resetPlayer();
+
+    void resetLevel(int level);
 };
 
 

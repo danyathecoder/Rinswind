@@ -14,9 +14,9 @@ void Player::moveCharacter(float x, float y) {
         weapon->sprite.move(x * speed, y * speed);
     }
     else {
-        this->sprite.move(x * speed * -1 / 2, y * speed * -1 / 2);
-        camera.move(x * speed * -1 / 2, y * speed * -1 / 2);
-        weapon->sprite.move(x * speed * -1 / 2, y * speed * -1 / 2);
+        this->sprite.move(x * speed * -1 / 10, y * speed * -1 / 10);
+        camera.move(x * speed * -1 / 10, y * speed * -1 / 10);
+        weapon->sprite.move(x * speed * -1 / 10, y * speed * -1 / 10);
     }
 }
 
@@ -53,7 +53,7 @@ void Player::setKnight() {
     padding = sf::Vector2f(0.f, 0.f);
     weapon = new Sword();
     weapon->ownership = Weapon::Own::PLAYER;
-    immuneDuration = 0.3f;
+    immuneDuration = 0.75f;
     immuneTime = 0;
     isImmune = false;
     UI = UserInterface();
@@ -132,9 +132,22 @@ void Player::getCollision(Character *collisionObject) {
 }
 
 void Player::getDamage(int damage) {
-    Character::getDamage(damage);
+    if (isImmune) return;
+    else {
+        health -= damage;
+        if (health <= 0) {
+            Game::currentGame->getCurrentLevel()->soundtrack.stop();
+            Game::currentGame->loadLevel(3);
+            Game::currentGame->camera = new sf::View(sf::FloatRect(0, 0, 800, 600));
+        }
+        isImmune = true;
+        sprite.setColor(sf::Color(255, 0, 0, 255));
+        setCurrentState(States::HIT);
+    }
     UI.update();
 }
+
+Player::~Player() = default;
 
 
 

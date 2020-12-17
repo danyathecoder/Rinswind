@@ -8,7 +8,7 @@
 
 Goblin::Goblin(float xPosition, float yPosition) {
     health = 2;
-    speed = 10;
+    speed = 75;
     Animation idle, walk, hit;
     hit.speed = 5;
     range = 100;
@@ -28,11 +28,11 @@ Goblin::Goblin(float xPosition, float yPosition) {
     float yOrigin = (float)sprite.getTexture()->getSize().y / 2;
     sprite.setOrigin(sf::Vector2f(xOrigin, yOrigin));
     sprite.setPosition(xPosition, yPosition);
-    padding = sf::Vector2f(0.49f, 0.49f);
+    padding = sf::Vector2f(0.35f, 0.35f);
     name = "goblin";
     weapon = new Weapon();
     weapon->ownership = Weapon::Own::ENEMY;
-    immuneDuration = 0.1f;
+    immuneDuration = 0.2f;
     immuneTime = 0;
     isImmune = false;
 }
@@ -42,18 +42,18 @@ Goblin::~Goblin() = default;
 void Goblin::update(float elapsedTime) {
     checkImpacts(elapsedTime);
     checkStates();
-    actionSwitcher();
+    actionSwitcher(elapsedTime);
     updateSprite(elapsedTime);
 }
 
 void Goblin::getCollision(Character *collisionObject) {
     sf::Vector2f coords = (sprite.getPosition() - collisionObject->sprite.getPosition());
-    float angle = (float)(atan(coords.y / coords.x) * 180 / M_PI);
-    if (coords.x < 0)
-        angle += 180;
-    if (angle < 0) angle += 360;
-    //sf::Vector2f revDir(cos(angle) * 0.1f,sin(angle) * 0.1f);
+    float angle = std::atan(coords.y / coords.x);
+    if (coords.x > 0)
+        angle += M_PI;
+    sf::Vector2f revDir(std::cos(angle) * 0.3f, std::sin(angle) * 0.3f);
     if (collisionObject->name == "Knight") {
         collisionObject->getDamage(1);
     }
+    //collisionObject->moveCharacter(revDir.x, revDir.y);
 }

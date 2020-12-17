@@ -18,7 +18,7 @@ void Character::moveCharacter(float x, float y) {
     if (!checkCollisions(sprite.getPosition(), nextPosition))
         this->sprite.move(x * speed, y * speed);
     else {
-        sprite.move(-1 * x * speed, -1 * y * speed);
+        sprite.move(-1.f / 10 * x * speed, -1.f / 10 * y * speed);
     }
 }
 
@@ -49,6 +49,7 @@ bool Character::checkCollisions(sf::Vector2f previousPosition, sf::Vector2f next
     nextLUP.x -= ((float)selfSize.x / 2);
     nextLUP.y -= ((float)selfSize.y / 2);
     for (auto &character: level->characters) {
+        if (character.get() == this) continue;
         sf::Vector2u charSize = character->sprite.getTexture()->getSize() /*+ sf::Vector2u(12, 12)*/;
         sf::Vector2f charLUP = character->sprite.getPosition();
         charLUP.x -= ((float)charSize.x / 2);

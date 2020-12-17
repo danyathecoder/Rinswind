@@ -14,7 +14,7 @@ void UserInterface::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 UserInterface::UserInterface() {
     heart.loadFromFile("../resources/GUI/heart.png");
     vertices.setPrimitiveType(sf::Quads);
-    int health = Game::player.health;
+    int health = Game::player->health;
     currentHealth = health;
     setHealth(health);
 }
@@ -37,7 +37,7 @@ void UserInterface::setHealth(int count) {
 }
 
 void UserInterface::update() {
-    int health = Game::player.health;
+    int health = Game::player->health;
     if (health != currentHealth) {
         setHealth(health);
         currentHealth = health;

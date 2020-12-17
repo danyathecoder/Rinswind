@@ -9,12 +9,12 @@
 
 class Enemy : public Character {
 protected:
-    virtual void idle();
-    virtual void attack();
-    virtual void walk();
-    virtual void hit();
+    virtual void idle(float elapsedTime);
+    virtual void attack(float elapsedTime);
+    virtual void walk(float elapsedTime);
+    virtual void hit(float elapsedTime);
     float range;
-    virtual void actionSwitcher();
+    virtual void actionSwitcher(float elapsedTime);
     virtual void update(float elapsedTime) override;
 public:
     void checkStates();

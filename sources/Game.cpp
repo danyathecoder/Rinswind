@@ -5,7 +5,7 @@
 
 
 void Game::initWindow() {
-    window = new sf::RenderWindow(sf::VideoMode(800, 600), "");
+    window = new sf::RenderWindow(sf::VideoMode(800, 600), "Rinswind", sf::Style::Titlebar + sf::Style::Close);
     Game::window->setFramerateLimit(60);
     camera = new sf::View();
     camera->reset(sf::FloatRect (0, 0, 800, 600));
@@ -19,7 +19,9 @@ Game::Game() {
     initWindow();
     levels.push_back(Level::mainMenu());
     levels.push_back(Level::options());
-    levels.push_back(Level::zeroLevel());
+    levels.push_back(Level::firstLevel());
+    levels.push_back(Level::deathScreen());
+    levels.push_back(Level::winScreen());
     this->loadLevel(currentLevel);
 }
 
@@ -41,7 +43,7 @@ void Game::render() {
     }
 
     if (levels[currentLevel].type != Level::Types::MENU) {
-        Game::window->draw(player.UI);
+        Game::window->draw(player->UI);
     }
 
     Game::window->display();
@@ -60,6 +62,10 @@ void Game::update() {
     this->updateSFMLEvents();
     for (auto &character: levels[currentLevel].characters)
         character->update(dt);
+    /*if (levels[currentLevel].characters.size() == 1) {
+        camera = new sf::View(sf::FloatRect(0,0,800,600));
+        setCurrentLevel(4);
+    }*/
 
 }
 
@@ -79,22 +85,23 @@ void Game::loadLevel(int number) {
     currentLevel = number;
     levels[currentLevel].loadLevel();
     if (levels[currentLevel].type != Level::Types::MENU) {
-        player.level = &levels[currentLevel];
-        player.setPosition(levels[currentLevel].getStartPosition());
-        player.camera.setCenter(player.sprite.getPosition());
-        player.setCurrentState(Character::States::IDLE);
+        player->level = &levels[currentLevel];
+        player->setPosition(levels[currentLevel].getStartPosition());
+        player->camera.setCenter(player->sprite.getPosition());
+        player->setCurrentState(Character::States::IDLE);
         for (auto &character: levels[currentLevel].characters)
             character->level = &levels[currentLevel];
-        levels[currentLevel].characters.push_back(std::shared_ptr<Character>(&player));
+        levels[currentLevel].characters.push_back(std::shared_ptr<Character>(player));
     }
     levels[currentLevel].soundtrack.play();
 }
 
 void Game::initPlayer() {
-    player.setClass(Player::Classes::KNIGHT);
-    player.camera.setSize(400, 300);
-    player.setCurrentState(Character::States::IDLE);
-    camera = &player.camera;
+    player = new Player();
+    player->setClass(Player::Classes::KNIGHT);
+    player->camera.setSize(400, 300);
+    player->setCurrentState(Character::States::IDLE);
+    camera = &player->camera;
 }
 
 void Game::keyboard(float dt) {
@@ -108,13 +115,13 @@ void Game::mouse() {
         buttonRect.left = position.x;
         buttonRect.top = position.y;
         if (buttonRect.contains(sf::Mouse::getPosition(window[0]))) {
-            button.sprite.setColor(sf::Color::Red);
+            button.sprite.setColor(button.activateColor);
             button.sound.play();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 button.action(this);
         }
         else {
-            button.sprite.setColor(sf::Color::Yellow);
+            button.sprite.setColor(button.idleColor);
         }
     }
 }
@@ -130,3 +137,8 @@ Level* Game::getCurrentLevel() {
 
 Game::~Game() = default;
 
+
+void Game::resetLevel(int level) {
+    initPlayer();
+    levels[level].resetLevelCharacters();
+}
