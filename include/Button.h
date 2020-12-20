@@ -13,7 +13,8 @@
 class Button {
 public:
     sf::Texture texture;
-    std::string filename;
+    sf::Color activateColor;
+    sf::Color idleColor;
     sf::Sprite sprite;
     std::function<void(Game*)> action;
     sf::Sound sound;

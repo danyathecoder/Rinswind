@@ -15,7 +15,6 @@ public:
     Goblin(float xPosition, float yPosition);
     ~Goblin();
     virtual void update(float elapsedTime) override;
-    virtual void follow(bool angry) override;
     virtual void getCollision(Character* collisionObject) override;
 };
 

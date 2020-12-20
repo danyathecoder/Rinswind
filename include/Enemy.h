@@ -8,15 +8,16 @@
 #include "Character.h"
 
 class Enemy : public Character {
-    //virtual void idle();
-    //virtual void attack();
-    //virtual void walk();
-    //virtual void hit();
-    //virtual void getCollision(Character *collisionObject) override;
+protected:
+    virtual void idle(float elapsedTime);
+    virtual void attack(float elapsedTime);
+    virtual void walk(float elapsedTime);
+    virtual void hit(float elapsedTime);
+    float range;
+    virtual void actionSwitcher(float elapsedTime);
     virtual void update(float elapsedTime) override;
-    virtual void follow(bool angry);
 public:
-    bool isAggressive(float playerSpriteX, float playerSpriteY, float range);
+    void checkStates();
 };
 
 #endif //GAME_ENEMY_H

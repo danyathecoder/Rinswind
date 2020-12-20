@@ -7,16 +7,16 @@
 #include <cmath>
 
 void Player::moveCharacter(float x, float y) {
-    sf::Vector2f nextPosition(currentSprite.getPosition().x + x * speed, currentSprite.getPosition().y + y * speed);
-    if (!checkCollisions(currentSprite.getPosition(), nextPosition)) {
-        this->currentSprite.move(x * speed, y * speed);
+    sf::Vector2f nextPosition(sprite.getPosition().x + x * speed, sprite.getPosition().y + y * speed);
+    if (!checkCollisions(sprite.getPosition(), nextPosition)) {
+        this->sprite.move(x * speed, y * speed);
         camera.move(x * speed, y * speed);
         weapon->sprite.move(x * speed, y * speed);
     }
     else {
-        this->currentSprite.move(x * speed * -1 / 2, y * speed * -1 / 2);
-        camera.move(x * speed * -1 / 2, y * speed * -1 / 2);
-        weapon->sprite.move(x * speed * -1 / 2, y * speed * -1 / 2);
+        this->sprite.move(x * speed * -1 / 10, y * speed * -1 / 10);
+        camera.move(x * speed * -1 / 10, y * speed * -1 / 10);
+        weapon->sprite.move(x * speed * -1 / 10, y * speed * -1 / 10);
     }
 }
 
@@ -32,11 +32,12 @@ void Player::setClass(Classes newClass) {
 }
 
 void Player::setKnight() {
-    this->health = 100;
+    this->health = 3;
     this->speed = 100;
     this->name = "Knight";
     Animation idle, walk, hit;
     walk.speed = idle.speed = hit.speed = 5;
+    hit.speed = 1;
     std::string pathToIdle = "../resources/Animations/Knight/knight_m_idle_anim_f";
     std::string pathToWalk = "../resources/Animations/Knight/knight_m_run_anim_f";
     std::string pathToHit = "../resources/Animations/Knight/knight_m_hit_anim_f";
@@ -48,13 +49,14 @@ void Player::setKnight() {
     this->animations[States::HIT] = hit;
     setCurrentState(States::IDLE);
     updateSprite(1.f / 60);
-    currentSprite.setOrigin(8, 14);
+    sprite.setOrigin(8, 14);
     padding = sf::Vector2f(0.f, 0.f);
     weapon = new Sword();
     weapon->ownership = Weapon::Own::PLAYER;
-    immuneDuration = 3;
+    immuneDuration = 0.75f;
     immuneTime = 0;
     isImmune = false;
+    UI = UserInterface();
 }
 
 void Player::setMage() {
@@ -86,7 +88,7 @@ void Player::keyboard(float elapsedTime) {
         isInMove = true;
     }
     if (!isInMove) {
-        setCurrentState(Character::States::IDLE);
+        if (state != States::HIT) setCurrentState(Character::States::IDLE);
     }
 }
 
@@ -105,6 +107,7 @@ void Player::update(float elapsedTime) {
     checkImpacts(elapsedTime);
     updateWeapon(elapsedTime);
     updateSprite(elapsedTime);
+    UI.update();
 }
 
 void Player::setWeaponRotation() {
@@ -127,6 +130,24 @@ void Player::updateWeapon(float elapsedTime) {
 void Player::getCollision(Character *collisionObject) {
 
 }
+
+void Player::getDamage(int damage) {
+    if (isImmune) return;
+    else {
+        health -= damage;
+        if (health <= 0) {
+            Game::currentGame->getCurrentLevel()->soundtrack.stop();
+            Game::currentGame->loadLevel(3);
+            Game::currentGame->camera = new sf::View(sf::FloatRect(0, 0, 800, 600));
+        }
+        isImmune = true;
+        sprite.setColor(sf::Color(255, 0, 0, 255));
+        setCurrentState(States::HIT);
+    }
+    UI.update();
+}
+
+Player::~Player() = default;
 
 
 

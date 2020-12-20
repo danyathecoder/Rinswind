@@ -5,7 +5,7 @@
 #include "../include/Sword.h"
 
 Sword::Sword() {
-    damage = 5;
+    damage = 1;
     angle = 90;
     Animation attack, wait;
     wait.speed = 5;
